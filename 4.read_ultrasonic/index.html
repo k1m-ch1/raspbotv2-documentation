@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="light">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        
+        
+        <link rel="shortcut icon" href="../img/favicon.ico">
+        <title>Using The Ultrasonic Sensors - Raspbot V2 Unofficial Documentation</title>
+        <link href="../css/bootstrap.min.css" rel="stylesheet">
+        <link href="../css/fontawesome.min.css" rel="stylesheet">
+        <link href="../css/brands.min.css" rel="stylesheet">
+        <link href="../css/solid.min.css" rel="stylesheet">
+        <link href="../css/v4-font-face.min.css" rel="stylesheet">
+        <link href="../css/base.css" rel="stylesheet">
+        <link id="hljs-light" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" >
+        <link id="hljs-dark" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github-dark.min.css" disabled>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+        <script>hljs.highlightAll();</script> 
+    </head>
+
+    <body>
+        <div class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary">
+            <div class="container">
+                <a class="navbar-brand" href="..">Raspbot V2 Unofficial Documentation</a>
+                <!-- Expander button -->
+                <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar-collapse" aria-controls="navbar-collapse" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <!-- Expanded navigation -->
+                <div id="navbar-collapse" class="navbar-collapse collapse">
+                        <!-- Main navigation -->
+                        <ul class="nav navbar-nav">
+                            <li class="nav-item">
+                                <a href=".." class="nav-link">Home</a>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a href="#" class="nav-link dropdown-toggle active" aria-current="page" role="button" data-bs-toggle="dropdown"  aria-expanded="false">User Guide</a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../0.ssh_to_raspberry_pi/" class="dropdown-item">Getting Started</a>
+</li>
+                                    
+<li>
+    <a href="../1.installing_libraries/" class="dropdown-item">Installation Of Libraries</a>
+</li>
+                                    
+<li>
+    <a href="../2.library_basics/" class="dropdown-item">Library Basics</a>
+</li>
+                                    
+<li>
+    <a href="../3.motor_control/" class="dropdown-item">Control Of Motors</a>
+</li>
+                                    
+<li>
+    <a href="./" class="dropdown-item active" aria-current="page">Using The Ultrasonic Sensors</a>
+</li>
+                                    
+<li>
+    <a href="../5.line_following_module/" class="dropdown-item">Line Following Module</a>
+</li>
+                                    
+<li>
+    <a href="../6.other_pre_written_libraries/" class="dropdown-item">Other Built-In Libraries</a>
+</li>
+                                    
+<li>
+    <a href="../7.simple_obstacle_avoidance/" class="dropdown-item">Simple Obstacle Avoidance Robot</a>
+</li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                    <ul class="nav navbar-nav ms-md-auto">
+                        <li class="nav-item">
+                            <a href="#" class="nav-link" data-bs-toggle="modal" data-bs-target="#mkdocs_search_modal">
+                                <i class="fa fa-search"></i> Search
+                            </a>
+                        </li>
+                            <li class="nav-item">
+                                <a rel="prev" href="../3.motor_control/" class="nav-link">
+                                    <i class="fa fa-arrow-left"></i> Previous
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a rel="next" href="../5.line_following_module/" class="nav-link">
+                                    Next <i class="fa fa-arrow-right"></i>
+                                </a>
+                            </li>
+                            <li class="nav-item dropdown">
+                              <button id="theme-menu" aria-expanded="false" data-bs-toggle="dropdown" data-bs-display="static" aria-label="Toggle theme" class="nav-link dropdown-toggle">
+                                <i class="fa-solid fa-circle-half-stroke fa-fw"></i>
+                                <span class="d-lg-none ms-2">Toggle theme</span>
+                              </button>
+                              <ul class="dropdown-menu dropdown-menu-end">
+                                <li>
+                                  <button class="dropdown-item d-flex align-items-center" data-bs-theme-value="light" aria-pressed="true">
+                                    <i class="fa-solid fa-sun fa-fw"></i>
+                                    <span class="ms-2">Light</span>
+                                    <i class="fa-solid fa-check ms-auto"></i>
+                                  </button>
+                                </li>
+                                <li>
+                                  <button class="dropdown-item d-flex align-items-center" data-bs-theme-value="dark" aria-pressed="false">
+                                    <i class="fa-solid fa-moon fa-fw"></i>
+                                    <span class="ms-2">Dark</span>
+                                    <i class="fa-solid fa-check ms-auto d-none"></i>
+                                  </button>
+                                </li>
+                                <li>
+                                  <button class="dropdown-item d-flex align-items-center" data-bs-theme-value="auto" aria-pressed="false">
+                                    <i class="fa-solid fa-circle-half-stroke fa-fw"></i>
+                                    <span class="ms-2">Auto</span>
+                                    <i class="fa-solid fa-check ms-auto d-none"></i>
+                                  </button>
+                                </li>
+                              </ul>
+                            </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <script src="../js/darkmode.js"></script>
+
+        <div class="container">
+            <div class="row">
+                    <div class="col-md-3"><div class="navbar-expand-md bs-sidebar hidden-print affix" role="complementary">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggler collapsed" data-bs-toggle="collapse" data-bs-target="#toc-collapse" title="Table of Contents">
+            <span class="fa fa-angle-down"></span>
+        </button>
+    </div>
+
+    
+    <div id="toc-collapse" class="navbar-collapse collapse card bg-body-tertiary">
+        <ul class="nav flex-column">
+            
+            <li class="nav-item" data-bs-level="1"><a href="#about-the-ultrasonic-sensor" class="nav-link">About The Ultrasonic Sensor</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            
+            <li class="nav-item" data-bs-level="1"><a href="#using-the-ultrasonic-sensor" class="nav-link">Using The Ultrasonic Sensor</a>
+              <ul class="nav flex-column">
+            <li class="nav-item" data-bs-level="2"><a href="#writing-and-reading-from-registers" class="nav-link">Writing And Reading From Registers</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#turning-onoff-the-ultrasonic-sensor" class="nav-link">Turning On/Off The Ultrasonic Sensor</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#reading-the-distance-value" class="nav-link">Reading The Distance Value</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+              </ul>
+            </li>
+        </ul>
+    </div>
+</div></div>
+                    <div class="col-md-9" role="main">
+
+<h1 id="about-the-ultrasonic-sensor">About The Ultrasonic Sensor</h1>
+<p>RaspbotV2 comes equiped with an ultrasonic sensor at the front of the car. An ultrasonic sensor is typically used to measure the distance of an object in front of the car by sending a ultrasonic wave, and measuring the time until it returns.</p>
+<div class="arithmatex">\[
+v = \frac{d}{t} \implies \boxed{d = vt}
+\]</div>
+<p>The shield of the robot already does the calculation for us and stores the distance value in the register according to <a href="https://drive.google.com/drive/folders/1ul-gn01JxJIXepU9Tqy453pdnA4wNlUd">its datasheet</a>.</p>
+<p>the relevant data:</p>
+<table>
+<thead>
+<tr>
+<th>Type Of Data</th>
+<th>Register</th>
+<th>Type</th>
+<th>Information</th>
+<th>Other</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Ultrasonic Control Switch</td>
+<td>0x07</td>
+<td>Write</td>
+<td>buf[0]: turn off/on 0/1</td>
+<td>When you don't use the ultrasonic wave, remember to turn it off. Don't turnon this button when the ultrasonic wave is not plugged in, otherwise it won't work properly.</td>
+</tr>
+<tr>
+<td>Ultrasonic data (low bit)</td>
+<td>0x1A</td>
+<td>Read</td>
+<td>0x00-0xFF</td>
+<td>Default value: 0x00, Unit: mm</td>
+</tr>
+<tr>
+<td>Ultrasonic data (high bit)</td>
+<td>0x1B</td>
+<td>Read</td>
+<td>0x00-0xFF</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h1 id="using-the-ultrasonic-sensor">Using The Ultrasonic Sensor</h1>
+<p>Since the library doesn't directly have built-in methods to read and compute the distance for us, we'll do it manually by reading and writing to the shield via I2C communication.</p>
+<h2 id="writing-and-reading-from-registers">Writing And Reading From Registers</h2>
+<p>The Raspbot_Lib library has built in functions to read and write to the shield attached to the Raspberry PI via I2C communication.</p>
+<p>To write to an address:</p>
+<pre><code class="language-python">reg = 0x07
+data = [1]
+bot.write_array(reg, data)
+</code></pre>
+<p>To read from an address:</p>
+<pre><code class="language-python">reg = 0x0D
+desired_block_length = 1
+output = bot.read_data_array(reg, desired_block_length)
+# output is a list of bytes
+</code></pre>
+<h2 id="turning-onoff-the-ultrasonic-sensor">Turning On/Off The Ultrasonic Sensor</h2>
+<p>To turn on the ultrasonic sensor:</p>
+<p>Use prebuilt function: </p>
+<pre><code class="language-python">bot.Ctrl_Ulatist_Switch(1)
+</code></pre>
+<p>Or directly write to the register:</p>
+<pre><code class="language-python">reg = 0x07
+data = [1]
+bot.write_array(reg, data)
+</code></pre>
+<p>Note: Generally, it's best to turn of the sensor when it's not in use. When writing a try-catch block, it's important to turn off the ultrasonic sensor when something goes wrong. </p>
+<h2 id="reading-the-distance-value">Reading The Distance Value</h2>
+<p>The total distance of 2 bytes is split into 2 registers, <code>0x1A</code> and <code>0x1B</code> for low and high bits respectively. Its units is in millimeters <span class="arithmatex">\((\text{mm})\)</span>.</p>
+<p>First, we retrive the 2 bytes from the register.</p>
+<pre><code class="language-python">low_bit_reg = 0x1A
+high_bit_reg = 0x1B
+desired_block_length = 1
+low_bit_distance = bot.read_data_array(low_bit_reg, desired_block_length)[0]
+high_bit_distance = bot.read_data_array(high_bit_reg, desired_block_length)[0]
+</code></pre>
+<p>If for instance, <code>low_bit_distance=0xE8</code> and <code>high_bit_distance=0x03</code>, the whole distance would be <code>0x03E8</code>.</p>
+<div class="arithmatex">\[
+\texttt{0x}\underbrace{\texttt{03}}_{\text{high bit |}}\underbrace{\texttt{E8}}_\text{ low bit }
+\]</div>
+<p>To do this we can:
+1. <code>0x03 &lt;&lt; 8</code> to get <code>0x0300</code>
+2. Then simply take <code>0x0300 + 0x00E8</code> or <code>0x0300 | 0x00E8</code> to get <code>0X03E8</code></p>
+<p>Programically, to combine these two values, we:
+1. Shift <code>high_bit_distance</code> 1 byte (8 bits) to the left
+2. Either take <code>high_bit_distance + low_bit_distance</code> or <code>high_bit_distance|low_bit_distance</code> to get the real distance</p>
+<pre><code class="language-python">distance = (high_bit_distance &lt;&lt; 8)|low_bit_distance
+</code></pre></div>
+            </div>
+        </div>
+
+        <footer class="col-md-12">
+            <hr>
+            <p>Documentation built with <a href="https://www.mkdocs.org/">MkDocs</a>.</p>
+        </footer>
+        <script src="../js/bootstrap.bundle.min.js"></script>
+        <script>
+            var base_url = "..",
+                shortcuts = {"help": 191, "next": 78, "previous": 80, "search": 83};
+        </script>
+        <script src="../js/base.js"></script>
+        <script src="../javascripts/mathjax.js"></script>
+        <script src="https://unpkg.com/mathjax@3/es5/tex-mml-chtml.js"></script>
+        <script src="../search/main.js"></script>
+
+        <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>From here you can search these documents. Enter your search terms below.</p>
+                <form>
+                    <div class="form-group">
+                        <input type="search" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results" data-no-results-text="No results found"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+
+    </body>
+</html>
