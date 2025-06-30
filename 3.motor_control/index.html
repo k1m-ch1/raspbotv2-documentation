@@ -72,6 +72,14 @@
 <li>
     <a href="../7.simple_obstacle_avoidance/" class="dropdown-item">Simple Obstacle Avoidance Robot</a>
 </li>
+                                    
+<li>
+    <a href="../8.ir_remote_controlled/" class="dropdown-item">Infrared Remote Control</a>
+</li>
+                                    
+<li>
+    <a href="../9.computer_vision/" class="dropdown-item">Computer Vision</a>
+</li>
                                 </ul>
                             </li>
                         </ul>
@@ -559,8 +567,23 @@ $$</p>
 <p>We still need to rotate the whole x and y axis back by <span class="arithmatex">\(45^\circ\)</span>.</p>
 <div class="arithmatex">\[
 \therefore\boxed{\begin{cases}
-&amp;F_{xm} = F_\text{lim}(V)\times\frac{\cos(\theta - \pi/4)}{\max(|\cos(\theta - \pi/4)|,|\sin(\theta - \pi/4)|)}\\
-&amp;F_{ym} = F_\text{lim}(V)\times\frac{\sin(\theta - \pi/4)}{\max{(|\cos(\theta - \pi/4)|,|\sin(\theta - \pi/4)|)}}
+&amp;F_{xm} = F_\text{lim}\times\frac{\cos(\theta - \pi/4)}{\max(|\cos(\theta - \pi/4)|,|\sin(\theta - \pi/4)|)}\\
+&amp;F_{ym} = F_\text{lim}\times\frac{\sin(\theta - \pi/4)}{\max{(|\cos(\theta - \pi/4)|,|\sin(\theta - \pi/4)|)}}
+\end{cases}}
+\]</div>
+<p>But we can only control Voltage hence:</p>
+<div class="arithmatex">\[
+\begin{cases}
+&amp;V_x = V\left(F_{xm}\right)\\
+&amp;V_y = V\left(F_{ym}\right)\\
+\end{cases}
+\]</div>
+<p>For simplicity (although it's not very accurate), we assume <span class="arithmatex">\(V \propto F\)</span> so that given the same directions to control $ V_x$ and <span class="arithmatex">\(V_y\)</span> will correspond to the direction of the force vectors <span class="arithmatex">\(F_{xm}\)</span> and <span class="arithmatex">\(F_{ym}\)</span> (because of Thales' theorem).</p>
+<p>So:</p>
+<div class="arithmatex">\[
+\therefore\boxed{\begin{cases}
+&amp;V_{xm} = V_\text{lim}\times\frac{\cos(\theta - \pi/4)}{\max(|\cos(\theta - \pi/4)|,|\sin(\theta - \pi/4)|)}\\
+&amp;V_{ym} = V_\text{lim}\times\frac{\sin(\theta - \pi/4)}{\max{(|\cos(\theta - \pi/4)|,|\sin(\theta - \pi/4)|)}}
 \end{cases}}
 \]</div>
 <p>To learn more or get better explaination see <a href="https://youtu.be/gnSW2QpkGXQ?si=V8QAbmyps1kVoRDh">here</a> and <a href="https://www.youtube.com/watch?v=AlsCUzCCc-k&amp;t=601s&amp;ab_channel=JeremyFielding">here</a>.</p>
@@ -640,8 +663,7 @@ $$</p>
     bot.Ctrl_Muto(2, clamp(speed_y + turn*speed))
 
     return speed_x, speed_y
-</code></pre>
-<pre><code class="language-mermaid"></code></pre></div>
+</code></pre></div>
             </div>
         </div>
 

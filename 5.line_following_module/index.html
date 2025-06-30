@@ -72,6 +72,14 @@
 <li>
     <a href="../7.simple_obstacle_avoidance/" class="dropdown-item">Simple Obstacle Avoidance Robot</a>
 </li>
+                                    
+<li>
+    <a href="../8.ir_remote_controlled/" class="dropdown-item">Infrared Remote Control</a>
+</li>
+                                    
+<li>
+    <a href="../9.computer_vision/" class="dropdown-item">Computer Vision</a>
+</li>
                                 </ul>
                             </li>
                         </ul>
@@ -167,14 +175,18 @@
 <h1 id="about-the-line-following-module">About The Line Following Module</h1>
 <p>The robot comes equipped with a 4 channel IR module attached to the bottom of the robot.  There are LEDs on top of the module that indicate the state of the sensors automatically without the need to write any code.</p>
 <p>From the <a href="https://drive.google.com/file/d/1t4k7jLzAHo66DYBeo1F2wkPZoZVSIJ6t/view?usp=sharing">datasheet</a></p>
-<p>Infrared sensor data
-- Address: 0x0A
-- Type: Read
-- Range: 0x0-0xF
-- Additional Info: 
-    - 1 bit = 1 sensor state
-    - 0 means LED is lit, 1 means LED is off
-    - If we label sensors from left to right accordingly: s1, s2, s3, s4; then output byte corresponds to: s2, s1, s3, s4</p>
+<p>Infrared sensor data: </p>
+<ul>
+<li>Address: 0x0A</li>
+<li>Type: Read</li>
+<li>Range: 0x0-0xF</li>
+<li>Additional Info: <ul>
+<li>1 bit = 1 sensor state</li>
+<li>0 means LED is lit, 1 means LED is off</li>
+<li>If we label sensors from left to right accordingly: s1, s2, s3, s4; then output byte corresponds to: s2, s1, s3, s4</li>
+</ul>
+</li>
+</ul>
 <p>Label sensors from left to right: s1, s2, s3, s4; respectively</p>
 <p>So if we get an output <code>0b0101</code>
 Then: </p>

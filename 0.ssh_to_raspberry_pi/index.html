@@ -72,6 +72,14 @@
 <li>
     <a href="../7.simple_obstacle_avoidance/" class="dropdown-item">Simple Obstacle Avoidance Robot</a>
 </li>
+                                    
+<li>
+    <a href="../8.ir_remote_controlled/" class="dropdown-item">Infrared Remote Control</a>
+</li>
+                                    
+<li>
+    <a href="../9.computer_vision/" class="dropdown-item">Computer Vision</a>
+</li>
                                 </ul>
                             </li>
                         </ul>
@@ -165,27 +173,27 @@
 <h1 id="connecting-to-the-raspberry-pi-via-ssh">Connecting To The Raspberry PI via SSH</h1>
 <p>To remotely access the Raspberry PI through your personal computer, we will access the <em>shell</em> of the raspberry pi through SSH.</p>
 <p>To setup ssh on your raspberry pi, look <a href="https://www.raspberrypi.com/documentation/computers/remote-access.html#ssh">here</a>.</p>
-<p>Assuming that you have already setup a <em>name</em> and a <em>password</em> on your rasberry pi, first look up your local ip address using the following command.</p>
+<p>Assuming that you have already setup a <em>name</em> and a <em>password</em> on your rasberry pi, first look up your local ip address using the following command in the terminal.</p>
 <pre><code>ifconfig
 </code></pre>
 <p>Make sure your raspberry pi and your computer are connected to the same network.</p>
-<p>from your personal computer, open your terminal and enter this command to connect via ssh.</p>
-<pre><code>ssh -X yourusername@yourip
+<p>From your personal computer, open your terminal and enter this command to connect via ssh.</p>
+<pre><code class="language-bash">ssh -X yourusername@yourip
 </code></pre>
 <p>for instance</p>
-<pre><code>ssh -X aupp@10.30.0.207
+<pre><code class="language-bash">ssh -X aupp@10.30.0.207
 </code></pre>
 <p>input your password and you'll be connected.</p>
 <h1 id="programming-environment-optional">Programming Environment (optional)</h1>
 <p>We'll use <em>jupyter</em> on the Raspberry PI. We host the server on its ip and access it on your personal pc.</p>
 <h2 id="installing-jupyter">Installing Jupyter</h2>
-<pre><code>pip install jupyter
+<pre><code class="language-bash">pip install jupyter
 </code></pre>
 <h2 id="hosting-the-server-on-your-ip">Hosting The Server On Your IP</h2>
-<pre><code>python3 -m jupyter lab . --ip &lt;your_LAN_ip&gt; --port 8888
+<pre><code class="language-bash">python3 -m jupyter lab . --ip &lt;your_LAN_ip&gt; --port 8888
 </code></pre>
 <p>For example, if your ip is <em>10.30.0.207</em> and you want to host it on port 8888</p>
-<pre><code>python3 -m jupyter lab . --ip 10.30.0.207 --port 8888
+<pre><code class="language-bash">python3 -m jupyter lab . --ip 10.30.0.207 --port 8888
 </code></pre>
 <p>you'll be given with a link like this:</p>
 <pre><code>http://10.30.0.207:8888/tree?token=a0cd659ac70086a9beb5cd3ca4d323ab733ec17c9f031805

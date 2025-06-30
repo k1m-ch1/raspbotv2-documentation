@@ -72,6 +72,14 @@
 <li>
     <a href="../7.simple_obstacle_avoidance/" class="dropdown-item">Simple Obstacle Avoidance Robot</a>
 </li>
+                                    
+<li>
+    <a href="../8.ir_remote_controlled/" class="dropdown-item">Infrared Remote Control</a>
+</li>
+                                    
+<li>
+    <a href="../9.computer_vision/" class="dropdown-item">Computer Vision</a>
+</li>
                                 </ul>
                             </li>
                         </ul>
@@ -156,6 +164,10 @@
               <ul class="nav flex-column">
               </ul>
             </li>
+            <li class="nav-item" data-bs-level="2"><a href="#methods-for-writing-things-to-the-display" class="nav-link">Methods for writing things to the display</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
               </ul>
             </li>
         </ul>
@@ -169,11 +181,11 @@
 <p>To use the functions in the file, either put it in the same directory as your python script or use <code>sys.path</code> to link it.</p>
 <pre><code class="language-python">sys.path(&quot;/path/to/the/library/&quot;)
 </code></pre>
+<h1 id="mclumk_wheel_sportspy">McLumk_Wheel_Sports.py</h1>
+<p>This library has pre-built functions to control the movement of the Mechanum wheel.</p>
 <p>For convenient's sake, import all functions into the program</p>
 <pre><code class="language-python">from McLumk_Wheel_Sports import *
 </code></pre>
-<h1 id="mclumk_wheel_sportspy">McLumk_Wheel_Sports.py</h1>
-<p>This library has pre-built functions to control the movement of the Mechanum wheel.</p>
 <table>
 <thead>
 <tr>
@@ -245,7 +257,7 @@
 </tr>
 <tr>
 <td><code>drifting(speed, deflection, deflection_rate)</code></td>
-<td>Speed: 0 to 255, deflection: 0 to 360, deflection_rate: not 117+ 132sure...</td>
+<td>Speed: 0 to 255, deflection: 0 to 360, deflection_rate: 117+ 132... not sure</td>
 <td>when deflection_rate = 0, robot moves in the direction set by the angle. (can definitely be better implmented)</td>
 </tr>
 </tbody>
@@ -261,7 +273,72 @@
 <li><strong>pillow</strong>: for image manipulation</li>
 </ul>
 <pre><code>pip install Adafruit_SSD1306 pillow
-</code></pre></div>
+</code></pre>
+<p>Importing the library:</p>
+<pre><code class="language-python">import sys
+sys.path.append(&quot;/path/to/the/library/&quot;)
+from yahboom_oled import *
+
+#Initializing oled object
+oled = Yahboom_OLED()
+# Begin oled object
+oled.begin()
+</code></pre>
+<p>There are two steps to display images onto the OLED display:</p>
+<ol>
+<li>Writing images to the buffer</li>
+<li>Refreshing the screen and loading that image</li>
+</ol>
+<p><strong>Note</strong>: writing the images to the buffer won't make it display on the screen. Make sure to refresh the screen afterwards using <code>oled.refresh()</code>.</p>
+<h2 id="methods-for-writing-things-to-the-display">Methods for writing things to the display</h2>
+<table>
+<thead>
+<tr>
+<th>Methods</th>
+<th>Arguments</th>
+<th>Details</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>oled.clear(refresh=False)</code></td>
+<td><code>refresh</code> (default to <code>False</code>)</td>
+<td>Simply clear the display. <code>refresh=True</code> refreshs the screen without the need of <code>oled.refresh()</code></td>
+</tr>
+<tr>
+<td><code>add_text(self, start_x, start_y, text, refresh=False)</code></td>
+<td><code>start_x</code>, <code>start_y</code> is of type <code>int</code>; <code>text</code> is of type <code>str</code></td>
+<td>display a text starting from coordinates (<code>start_x</code>, <code>start_y</code>).<em>Note: x=0, y=0; is positioned at top left corner</em></td>
+</tr>
+<tr>
+<td><code>add_cntext(self, start_x, start_y, text, refresh=False)</code></td>
+<td><span class="arithmatex">\(\vdots\)</span></td>
+<td>same as <code>add_text</code> but for chinese characters</td>
+</tr>
+<tr>
+<td><code>add_line(self, text, line=1, refresh=False)</code></td>
+<td><code>text</code> is of type <code>str</code>, <code>line</code> ranges from 1 to 4</td>
+<td>formats the text into lines automaticallly</td>
+</tr>
+<tr>
+<td><code>add_cnline(self, text, line=1, refresh=False)</code></td>
+<td><span class="arithmatex">\(\vdots\)</span></td>
+<td>same as <code>add_line</code> but for chinese characters</td>
+</tr>
+<tr>
+<td><code>main_program()</code></td>
+<td></td>
+<td>prints information about the raspberry pi including, CPU tempertature, RAM usage, IP address, Disk Usage, System time</td>
+</tr>
+</tbody>
+</table>
+<p>This library doesn't implement the display of custom images, or the ability to control each individual pixel. For more control, directly use the <code>Adafruit_SSD1306</code> library combined with <code>pillow</code></p>
+<p>Useful Links:</p>
+<ul>
+<li><code>Adafruit_SSD1306</code> <a href="https://github.com/adafruit/Adafruit_Python_SSD1306/tree/master">github repository</a></li>
+<li><a href="https://pypi.org/project/pillow/#description">Pillow library PyPI page</a></li>
+<li><a href="https://drive.google.com/drive/folders/1HdxfJaGoP0hoUWhiMxOM4yGBqbIs76O3?usp=sharing">Source code to the <code>yahboom_oled.py</code> file</a></li>
+</ul></div>
             </div>
         </div>
 
