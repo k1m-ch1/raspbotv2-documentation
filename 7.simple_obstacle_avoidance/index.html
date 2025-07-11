@@ -167,37 +167,23 @@ def get_distance(bot):
 
 if __name__ == &quot;__main__&quot;:
     speed = 75
-rotation_multiplier = 0.1
-bot.Ctrl_Ulatist_Switch(1)
-time.sleep(0.1) # polling rate of 10Hz
-try:
-    while True:
-        if get_distance(bot) &lt; 750: # 75 centimeters
-            rotate_left(speed*rotation_multiplier)
-        else:
-            move_forward(speed)
-except:
-    stop_robot()
-    bot.Ctrl_Ulatist_Switch(0)
-    print(&quot;exiting the program...&quot;)   
-
-
-
-speed = 75
-rotation_multiplier = 0.05
-bot.Ctrl_Ulatist_Switch(1)
-time.sleep(0.1) # polling rate of 10Hz
-try:
-    while True:
-        if get_distance(bot) &lt; 750: # 75 centimeters
-            move_backward(rotation_multiplier*speed)
-            rotate_left(speed*rotation_multiplier)
-        else:
-            move_forward(speed)
-except:
-    stop_robot()
-    bot.Ctrl_Ulatist_Switch(0)
-    print(&quot;exiting the program...&quot;) 
+    rotation_multiplier = 0.05
+    bot.Ctrl_Ulatist_Switch(1)
+    time.sleep(0.1) # polling rate of 10Hz
+    try:
+        while True:
+            if get_distance(bot) &lt; 500: # 50  centimeters
+                move_backward(rotation_multiplier*speed)
+                time.sleep(0.2)
+                stop_robot()
+                rotate_left(speed*rotation_multiplier)
+                time.sleep(0.5)
+            else:
+                move_forward(speed)
+    except:
+        stop_robot()
+        bot.Ctrl_Ulatist_Switch(0)
+        print(&quot;exiting the program...&quot;)    
 
 
 </code></pre></div>

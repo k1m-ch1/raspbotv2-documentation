@@ -293,8 +293,54 @@ output = bot.read_data_array(reg, desired_block_length)
 <h2 id="additional-info">Additional Info</h2>
 <ul>
 <li>When no button is pressed, the output will be <code>0xFF</code></li>
-<li>For <em>Yahboom</em> remote control, the keys range from <code>0x00</code> to <code>0x1a</code> </li>
-</ul></div>
+<li>For <em>Yahboom</em> remote control, the ir codes of the keys are given as follow</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>left</th>
+<th>middle</th>
+<th>right</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>0x00</code></td>
+<td><code>0x01</code></td>
+<td><code>0x02</code></td>
+</tr>
+<tr>
+<td><code>0x04</code></td>
+<td><code>0x05</code></td>
+<td><code>0x06</code></td>
+</tr>
+<tr>
+<td><code>0x08</code></td>
+<td><code>0x09</code></td>
+<td><code>0x0A</code></td>
+</tr>
+<tr>
+<td><code>0x0C</code></td>
+<td><code>0x0D</code></td>
+<td><code>0x0E</code></td>
+</tr>
+<tr>
+<td><code>0x10</code></td>
+<td><code>0x11</code></td>
+<td><code>0x12</code></td>
+</tr>
+<tr>
+<td><code>0x14</code></td>
+<td><code>0x15</code></td>
+<td><code>0x16</code></td>
+</tr>
+<tr>
+<td><code>0x18</code></td>
+<td><code>0x19</code></td>
+<td><code>0x1A</code></td>
+</tr>
+</tbody>
+</table></div>
             </div>
         </div>
 

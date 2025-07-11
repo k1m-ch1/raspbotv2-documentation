@@ -167,6 +167,11 @@
               <ul class="nav flex-column">
               </ul>
             </li>
+            
+            <li class="nav-item" data-bs-level="1"><a href="#simple-line-following-robot" class="nav-link">Simple Line Following Robot</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
         </ul>
     </div>
 </div></div>
@@ -183,11 +188,11 @@
 <li>Additional Info: <ul>
 <li>1 bit = 1 sensor state</li>
 <li>0 means LED is lit, 1 means LED is off</li>
-<li>If we label sensors from left to right accordingly: s1, s2, s3, s4; then output byte corresponds to: s2, s1, s3, s4</li>
+<li>If we label sensors from left to right accordingly: s0, s1, s2, s3; then output byte corresponds to: s1, s0, s2, s3</li>
 </ul>
 </li>
 </ul>
-<p>Label sensors from left to right: s1, s2, s3, s4; respectively</p>
+<p>Label sensors from left to right: s0, s1, s2, s3; respectively</p>
 <p>So if we get an output <code>0b0101</code>
 Then: </p>
 <table>
@@ -201,10 +206,10 @@ Then: </p>
 </thead>
 <tbody>
 <tr>
-<td>s2</td>
 <td>s1</td>
+<td>s0</td>
+<td>s2</td>
 <td>s3</td>
-<td>s4</td>
 </tr>
 <tr>
 <td>0</td>
@@ -214,22 +219,27 @@ Then: </p>
 </tr>
 </tbody>
 </table>
-<p>Then that implies:
-- s1: LED off
-- s2: LED lit
-- s3: LED lit
-- s4: LED off</p>
+<p>Then that implies:</p>
+<ul>
+<li>s0: LED off</li>
+<li>s1: LED lit</li>
+<li>s2: LED lit</li>
+<li>s3: LED off</li>
+</ul>
 <p>To get the value of a certain bit, for instance this <span class="arithmatex">\(\text{0b1}\underline{1}\text{01}\)</span></p>
 <ol>
 <li>Shift to the right by <span class="arithmatex">\(n\)</span> where <span class="arithmatex">\(n\)</span> is the amount of places to the left of lowest bit (or <span class="arithmatex">\(2^n\)</span> in base 10). meaning <code>0b1101 &gt;&gt; 2</code> results in <code>0b11</code>.</li>
 <li>Remove all bits to the left by using the AND operation with <code>0b1</code>. <code>0b11&amp;0b01</code> outputs <code>1</code> which is exactly the binary digit we're trying to retrieve.</li>
 </ol>
 <h1 id="calibrating-the-sensors">Calibrating The Sensors</h1>
-<p>To correctly output the right value based on your surroundings, we need to calibrate the sensors. Place all the sensors over a black material and adjust accordingly:
-1. Turn all the knob until no LED lights up
-2. Turn all the knobs until LED lights up and keep it there</p>
+<p>To correctly output the right value based on your surroundings, we need to calibrate the sensors. Place all the sensors over a black material and adjust accordingly:</p>
 <ol>
-<li>remove to surface</li>
+<li>Turn all the knob until no LED lights up</li>
+<li>Turn all the knobs, just until LED lights up and keep it there</li>
+</ol>
+<p>Double check:</p>
+<ol>
+<li>remove from surface</li>
 <li>check that LED doesn't light up</li>
 </ol>
 <h1 id="reading-data-from-sensor">Reading Data From Sensor</h1>
@@ -255,8 +265,155 @@ display(w_for_ir)
 while True:
     track_data = bot.read_data_array(reg, desired_blocks_of_data)[0]
     w_for_ir.value = bin(track_data)
+</code></pre>
+<h1 id="simple-line-following-robot">Simple Line Following Robot</h1>
+<p>From the code, we can simplify the state, <code>0</code> and <code>1</code> as such:
+- <code>0</code>: couldn't receive ir signal
+- <code>1</code>: could receive ir signal</p>
+<p>or:</p>
+<ul>
+<li><code>0</code>: on black rails</li>
+<li><code>1</code>: off black rails</li>
+</ul>
+<p>Recall this table:</p>
+<table>
+<thead>
+<tr>
+<th><span class="arithmatex">\(2^3\)</span></th>
+<th><span class="arithmatex">\(2^2\)</span></th>
+<th><span class="arithmatex">\(2^1\)</span></th>
+<th><span class="arithmatex">\(2^0\)</span></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>s1</td>
+<td>s0</td>
+<td>s2</td>
+<td>s3</td>
+</tr>
+</tbody>
+</table>
+<p>or </p>
+<table>
+<thead>
+<tr>
+<th>s0</th>
+<th>s1</th>
+<th>s2</th>
+<th>s3</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><span class="arithmatex">\(2^2\)</span></td>
+<td><span class="arithmatex">\(2^3\)</span></td>
+<td><span class="arithmatex">\(2^1\)</span></td>
+<td><span class="arithmatex">\(2^0\)</span></td>
+</tr>
+</tbody>
+</table>
+<p>Input to action table</p>
+<table>
+<thead>
+<tr>
+<th>Input</th>
+<th>Result</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>all on black line</td>
+<td>extreme left or right</td>
+</tr>
+<tr>
+<td>only s3 is off black line</td>
+<td>extreme left</td>
+</tr>
+<tr>
+<td>only s0 is off black line</td>
+<td>extreme right</td>
+</tr>
+<tr>
+<td>only s3 is on black line</td>
+<td>rotate right</td>
+</tr>
+<tr>
+<td>only s0 is on black line</td>
+<td>rotate left</td>
+</tr>
+<tr>
+<td>s2 is off black line</td>
+<td>rotate left</td>
+</tr>
+<tr>
+<td>s1 is off black line</td>
+<td>rotate right</td>
+</tr>
+<tr>
+<td>all is off black line</td>
+<td>stop</td>
+</tr>
+<tr>
+<td>else</td>
+<td>continue straight</td>
+</tr>
+</tbody>
+</table>
+<pre><code class="language-python"># first rewrite the bits into a list of bool (not for efficiency but for convenience)
+
+def rewrite_list(track_data:int):
+    track_data ^= 1111
+    ret_list = list()
+    ret_list.append(bool((track_data &gt;&gt; 2 ) &amp; 1))
+    ret_list.append(not bool((track_data &gt;&gt; 3) &amp; 1))
+    ret_list.append(bool((track_data &gt;&gt; 1 ) &amp; 1))
+    ret_list.append(bool((track_data) &amp; 1))
+    return ret_list    
+
+POWER = 0.2
+# 90 is constant. control only power
+# power, turn ranges from -1, 0 and 1, with -1 being left, 1 begin right.
+move_robot_wrapper = lambda power, turn: move_robot(90, power*POWER, turn*POWER, bot)
+
+map_to_control = {
+    &quot;forward&quot;: (1, 0),
+    &quot;rotate left&quot;:(0, -1),
+    &quot;rotate right&quot;:(0, 1),
+    &quot;extreme left&quot;:(-1, -1),
+    &quot;extreme right&quot;:(-1, 1),
+    &quot;stop&quot;:(0,0)
+}
+move_robot_wrapper(*map_to_control[&quot;extreme right&quot;])
+time.sleep(1)
+move_robot_wrapper(*map_to_control[&quot;stop&quot;])
 
 
+reg = 0x0A
+desired_blocks_of_data = 1
+while True:
+    track_data = bot.read_data_array(reg, desired_blocks_of_data)[0]
+    s = rewrite_list(track_data)
+    if s[0] and s[1] and s[2] and s[3]:
+        move_robot_wrapper(*map_to_control[&quot;extreme right&quot;])
+    elif (not s[0]) and (not s[1]) and (not s[2]) and (not s[3]):
+        move_robot_wrapper(*map_to_control[&quot;stop&quot;])
+    elif s[0] and s[1] and s[2] and (not s[3]):
+        move_robot_wrapper(*map_to_control[&quot;extreme left&quot;])
+    elif (not s[0]) and s[1] and s[2] and s[3]:
+        move_robot_wrapper(*map_to_control[&quot;extreme right&quot;])
+    elif (s[0] and (not s[1]) and (not s[2]) and (not s[3])) or (not s[2]):
+        move_robot_wrapper(*map_to_control[&quot;rotate left&quot;])
+    elif ((not s[0]) and (not s[1]) and (not s[2]) and s[3]) or (not s[1]):
+        move_robot_wrapper(*map_to_control[&quot;rotate right&quot;])
+    else:
+        move_robot_wrapper(*map_to_control[&quot;forward&quot;])
+
+    time.sleep(0.1)
+
+</code></pre>
+<p>Stopping:</p>
+<pre><code class="language-python">move_robot_wrapper(*map_to_control[&quot;stop&quot;])
 </code></pre></div>
             </div>
         </div>

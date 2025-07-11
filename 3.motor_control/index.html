@@ -202,6 +202,11 @@
               </ul>
             </li>
             
+            <li class="nav-item" data-bs-level="1"><a href="#errors-with-motor" class="nav-link">Errors with motor</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            
             <li class="nav-item" data-bs-level="1"><a href="#moving-at-any-angle" class="nav-link">Moving At Any Angle</a>
               <ul class="nav flex-column">
             <li class="nav-item" data-bs-level="2"><a href="#principle-of-mechanum-wheels" class="nav-link">Principle Of Mechanum Wheels</a>
@@ -456,6 +461,12 @@ bot.Ctrl_Muto(motor_id, motor_speed):
 </tr>
 </tbody>
 </table>
+<h1 id="errors-with-motor">Errors with motor</h1>
+<ul>
+<li>One common error happens when <code>Raspbot</code> object has been initialized multiple times</li>
+<li>The motor struggles to move and only jerks in the initial PWM signal</li>
+<li>To fix this, <code>del bot</code> once your program has finished. If this doesn't work, restart the kernel or restart the jupyter server.</li>
+</ul>
 <h1 id="moving-at-any-angle">Moving At Any Angle</h1>
 <p>To generalize the movement of the mechanum wheels, we can use forces and vector decomposition to approximately control the angle the robot moves in.</p>
 <h2 id="principle-of-mechanum-wheels">Principle Of Mechanum Wheels</h2>
@@ -605,14 +616,15 @@ $$</p>
     Returns:
     tuple: speed set to 0, 3 motors and 1, 2 motors
     &quot;&quot;&quot;
+
     # no parameter checking for simplicity
-    angle_rad = (direction/360) * math.pi
+    angle_rad = (direction/180) * math.pi
     unit_vector = (math.cos(angle_rad - math.pi/4), math.sin(angle_rad - math.pi/4))
-    max_component = max(unit_vector)
+    max_component = max(abs(unit_vector[0]), abs(unit_vector[1]))
     speed = int(255*power)
 
-    speed_x = speed*unit_vector[0]/max_component
-    speed_y = speed*unit_vector[1]/max_component    
+    speed_x = int((speed*unit_vector[0])/max_component)
+    speed_y = int((speed*unit_vector[1])/max_component)    
 
     bot.Ctrl_Muto(0, speed_x)
     bot.Ctrl_Muto(3, speed_x)
@@ -654,13 +666,12 @@ $$</p>
     speed_x = int((speed*unit_vector[0])/max_component)
     speed_y = int((speed*unit_vector[1])/max_component)    
 
-    clamp = lambda x: min(max(x,-speed), speed) 
+    clamp = lambda x: int(min(max(x, min(-speed, -abs(turn*255))), max(speed, abs(turn*255))))
     # clamp function: f(x) = x if a &lt; x &lt; b; a if x &lt; a; b if x &gt; b
-
-    bot.Ctrl_Muto(0, clamp(speed_x - turn*speed))
-    bot.Ctrl_Muto(3, clamp(speed_x + turn*speed))
-    bot.Ctrl_Muto(1, clamp(speed_y - turn*speed))
-    bot.Ctrl_Muto(2, clamp(speed_y + turn*speed))
+    bot.Ctrl_Muto(0, clamp(speed_x + turn*255))
+    bot.Ctrl_Muto(3, clamp(speed_x - turn*255))
+    bot.Ctrl_Muto(1, clamp(speed_y + turn*255))
+    bot.Ctrl_Muto(2, clamp(speed_y - turn*255))
 
     return speed_x, speed_y
 </code></pre></div>
