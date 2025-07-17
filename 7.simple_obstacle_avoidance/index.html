@@ -147,11 +147,29 @@
     
     <div id="toc-collapse" class="navbar-collapse collapse card bg-body-tertiary">
         <ul class="nav flex-column">
+            
+            <li class="nav-item" data-bs-level="1"><a href="#logic" class="nav-link">Logic</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            
+            <li class="nav-item" data-bs-level="1"><a href="#code" class="nav-link">Code</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
         </ul>
     </div>
 </div></div>
                     <div class="col-md-9" role="main">
 
+<h1 id="logic">Logic</h1>
+<ul>
+<li>move forward</li>
+<li>detect distance in front of the car</li>
+<li>if distance is too small, stop and rotate</li>
+<li>once distance is big enough, continue</li>
+</ul>
+<h1 id="code">Code</h1>
 <pre><code class="language-python">import Raspbot_Lib
 from McLumk_Wheel_Sports import *
 # McLumk_Wheel_Sports has already initialized a Raspbot() object called &quot;bot&quot;
