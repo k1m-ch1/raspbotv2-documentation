@@ -190,6 +190,10 @@
               <ul class="nav flex-column">
               </ul>
             </li>
+            <li class="nav-item" data-bs-level="2"><a href="#projects" class="nav-link">Projects</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
               </ul>
             </li>
         </ul>
@@ -739,6 +743,399 @@ cap.release()
 </ul>
 <h2 id="mediapipe-latest-solutions">MediaPipe latest solutions</h2>
 <p>Solutions built into the python libraries are now considered <code>legacy</code>.</p>
+<p>Converting an <code>OpenCV</code> image to a <code>mediapipe</code> image:</p>
+<pre><code class="language-python">rgb_frame = mp.Image(image_format=mp.ImageFormat.SRGB, data=cv_mat)
+</code></pre>
+<h3 id="hands-detection">Hands Detection</h3>
+<pre><code class="language-python">#@markdown We implemented some functions to visualize the hand landmark detection results. &lt;br/&gt; Run the following cell to activate the functions.
+
+from mediapipe import soluti_jons
+from mediapipe.framework.formats import landmark_pb2
+import numpy as np
+
+MARGIN = 10  # pixels
+FONT_SIZE = 1
+FONT_THICKNESS = 1
+HANDEDNESS_TEXT_COLOR = (88, 205, 54) # vibrant green
+
+def draw_landmarks_on_image(rgb_image, detection_result):
+  hand_landmarks_list = detection_result.hand_landmarks
+  handedness_list = detection_result.handedness
+  annotated_image = np.copy(rgb_image)
+
+  # Loop through the detected hands to visualize.
+  for idx in range(len(hand_landmarks_list)):
+    hand_landmarks = hand_landmarks_list[idx]
+    handedness = handedness_list[idx]
+
+    # Draw the hand landmarks.
+    hand_landmarks_proto = landmark_pb2.NormalizedLandmarkList()
+    hand_landmarks_proto.landmark.extend([
+      landmark_pb2.NormalizedLandmark(x=landmark.x, y=landmark.y, z=landmark.z) for landmark in hand_landmarks
+    ])
+    solutions.drawing_utils.draw_landmarks(
+      annotated_image,
+      hand_landmarks_proto,
+      solutions.hands.HAND_CONNECTIONS,
+      solutions.drawing_styles.get_default_hand_landmarks_style(),
+      solutions.drawing_styles.get_default_hand_connections_style())
+
+    # Get the top left corner of the detected hand's bounding box.
+    height, width, _ = annotated_image.shape
+    x_coordinates = [landmark.x for landmark in hand_landmarks]
+    y_coordinates = [landmark.y for landmark in hand_landmarks]
+    text_x = int(min(x_coordinates) * width)
+    text_y = int(min(y_coordinates) * height) - MARGIN
+
+    # Draw handedness (left or right hand) on the image.
+    cv2.putText(annotated_image, f&quot;{handedness[0].category_name}&quot;,
+                (text_x, text_y), cv2.FONT_HERSHEY_DUPLEX,
+                FONT_SIZE, HANDEDNESS_TEXT_COLOR, FONT_THICKNESS, cv2.LINE_AA)
+
+  return annotated_image
+
+import cv2
+img = cv2.imread(&quot;../images/hand.png&quot;)
+# STEP 1: Import the necessary modules.
+import mediapipe as mp
+from mediapipe.tasks import python
+from mediapipe.tasks.python import vision
+
+# STEP 2: Create an HandLandmarker object.
+base_options = python.BaseOptions(model_asset_path='./models/hand_landmarker.task')
+options = vision.HandLandmarkerOptions(base_options=base_options,
+                                       num_hands=2)
+detector = vision.HandLandmarker.create_from_options(options)
+
+# STEP 3: Load the input image.
+image = mp.Image.create_from_file(&quot;../images/hand.png&quot;)
+
+# STEP 4: Detect hand landmarks from the input image.
+detection_result = detector.detect(image)
+
+# STEP 5: Process the classification result. In this case, visualize it.
+annotated_image = draw_landmarks_on_image(cv2.cvtColor(image.numpy_view(), cv2.COLOR_RGB2BGR), detection_result)
+cv2.imshow(&quot;frame&quot;, annotated_image )
+cv2.waitKey(0)
+cv2.destroyAllWindows()
+</code></pre>
+<h3 id="face-detection_1">Face Detection</h3>
+<pre><code class="language-python"># for visualization
+from typing import Tuple, Union
+import math
+import cv2
+import numpy as np
+
+MARGIN = 10  # pixels
+ROW_SIZE = 10  # pixels
+FONT_SIZE = 1
+FONT_THICKNESS = 1
+TEXT_COLOR = (255, 0, 0)  # red
+
+
+def _normalized_to_pixel_coordinates(
+    normalized_x: float, normalized_y: float, image_width: int,
+    image_height: int) -&gt; Union[None, Tuple[int, int]]:
+  &quot;&quot;&quot;Converts normalized value pair to pixel coordinates.&quot;&quot;&quot;
+
+  # Checks if the float value is between 0 and 1.
+  def is_valid_normalized_value(value: float) -&gt; bool:
+    return (value &gt; 0 or math.isclose(0, value)) and (value &lt; 1 or
+                                                      math.isclose(1, value))
+
+  if not (is_valid_normalized_value(normalized_x) and
+          is_valid_normalized_value(normalized_y)):
+    # TODO: Draw coordinates even if it's outside of the image bounds.
+    return None
+  x_px = min(math.floor(normalized_x * image_width), image_width - 1)
+  y_px = min(math.floor(normalized_y * image_height), image_height - 1)
+  return x_px, y_px
+
+
+def visualize(
+    image,
+    detection_result
+) -&gt; np.ndarray:
+  &quot;&quot;&quot;Draws bounding boxes and keypoints on the input image and return it.
+  Args:
+    image: The input RGB image.
+    detection_result: The list of all &quot;Detection&quot; entities to be visualize.
+  Returns:
+    Image with bounding boxes.
+  &quot;&quot;&quot;
+  annotated_image = image.copy()
+  height, width, _ = image.shape
+
+  for detection in detection_result.detections:
+    # Draw bounding_box
+    bbox = detection.bounding_box
+    start_point = bbox.origin_x, bbox.origin_y
+    end_point = bbox.origin_x + bbox.width, bbox.origin_y + bbox.height
+    cv2.rectangle(annotated_image, start_point, end_point, TEXT_COLOR, 3)
+
+    # Draw keypoints
+    for keypoint in detection.keypoints:
+      keypoint_px = _normalized_to_pixel_coordinates(keypoint.x, keypoint.y,
+                                                     width, height)
+      color, thickness, radius = (0, 255, 0), 2, 2
+      cv2.circle(annotated_image, keypoint_px, thickness, color, radius)
+
+    # Draw label and score
+    category = detection.categories[0]
+    category_name = category.category_name
+    category_name = '' if category_name is None else category_name
+    probability = round(category.score, 2)
+    result_text = category_name + ' (' + str(probability) + ')'
+    text_location = (MARGIN + bbox.origin_x,
+                     MARGIN + ROW_SIZE + bbox.origin_y)
+    cv2.putText(annotated_image, result_text, text_location, cv2.FONT_HERSHEY_PLAIN,
+                FONT_SIZE, TEXT_COLOR, FONT_THICKNESS)
+
+  return annotated_image
+
+IMAGE_FILE = '../images/faces.jpg'
+
+import cv2
+
+img = cv2.imread(IMAGE_FILE)
+cv2.imshow(&quot;loaded image&quot;, img)
+cv2.waitKey(0)
+
+# STEP 1: Import the necessary modules.
+import numpy as np
+import mediapipe as mp
+from mediapipe.tasks import python
+from mediapipe.tasks.python import vision
+
+# STEP 2: Create an FaceDetector object.
+base_options = python.BaseOptions(model_asset_path='./models/detector.tflite')
+options = vision.FaceDetectorOptions(base_options=base_options)
+detector = vision.FaceDetector.create_from_options(options)
+
+# STEP 3: Load the input image.
+image = mp.Image.create_from_file(IMAGE_FILE)
+
+# STEP 4: Detect faces in the input image.
+detection_result = detector.detect(image)
+
+# STEP 5: Process the detection result. In this case, visualize it.
+image_copy = np.copy(image.numpy_view())
+annotated_image = visualize(image_copy, detection_result)
+rgb_annotated_image = cv2.cvtColor(annotated_image, cv2.COLOR_BGR2RGB)
+cv2.imshow(&quot;faces annotated&quot;, rgb_annotated_image)
+cv2.waitKey(0)
+cv2.destroyAllWindows()
+</code></pre>
+<h3 id="object-detection">Object Detection</h3>
+<pre><code class="language-python">#@markdown We implemented some functions to visualize the object detection results. &lt;br/&gt; Run the following cell to activate the functions.
+import cv2
+import numpy as np
+
+MARGIN = 10  # pixels
+ROW_SIZE = 10  # pixels
+FONT_SIZE = 1
+FONT_THICKNESS = 1
+TEXT_COLOR = (255, 0, 0)  # red
+
+
+def visualize(
+    image,
+    detection_result
+) -&gt; np.ndarray:
+  &quot;&quot;&quot;Draws bounding boxes on the input image and return it.
+  Args:
+    image: The input RGB image.
+    detection_result: The list of all &quot;Detection&quot; entities to be visualize.
+  Returns:
+    Image with bounding boxes.
+  &quot;&quot;&quot;
+  for detection in detection_result.detections:
+    # Draw bounding_box
+    bbox = detection.bounding_box
+    start_point = bbox.origin_x, bbox.origin_y
+    end_point = bbox.origin_x + bbox.width, bbox.origin_y + bbox.height
+    cv2.rectangle(image, start_point, end_point, TEXT_COLOR, 3)
+
+    # Draw label and score
+    category = detection.categories[0]
+    category_name = category.category_name
+    probability = round(category.score, 2)
+    result_text = category_name + ' (' + str(probability) + ')'
+    text_location = (MARGIN + bbox.origin_x,
+                     MARGIN + ROW_SIZE + bbox.origin_y)
+    cv2.putText(image, result_text, text_location, cv2.FONT_HERSHEY_PLAIN,
+                FONT_SIZE, TEXT_COLOR, FONT_THICKNESS)
+
+  return image
+
+# loading the image
+
+IMAGE_FILE = '../images/cats_and_dogs.jpg'
+
+import cv2
+
+img = cv2.imread(IMAGE_FILE)
+cv2.imshow(&quot;loaded image&quot;, img)
+cv2.waitKey(0)
+
+# STEP 1: Import the necessary modules.
+import numpy as np
+import mediapipe as mp
+from mediapipe.tasks import python
+from mediapipe.tasks.python import vision
+
+# STEP 2: Create an ObjectDetector object.
+base_options = python.BaseOptions(model_asset_path='./models/efficientdet.tflite')
+options = vision.ObjectDetectorOptions(base_options=base_options,
+                                       score_threshold=0.5)
+detector = vision.ObjectDetector.create_from_options(options)
+
+# STEP 3: Load the input image.
+image = mp.Image.create_from_file(IMAGE_FILE)
+
+# STEP 4: Detect objects in the input image.
+detection_result = detector.detect(image)
+print(detection_result)
+# STEP 5: Process the detection result. In this case, visualize it.
+image_copy = np.copy(image.numpy_view())
+annotated_image = visualize(image_copy, detection_result)
+rgb_annotated_image = cv2.cvtColor(annotated_image, cv2.COLOR_BGR2RGB)
+cv2.imshow(&quot;annotated image&quot;, rgb_annotated_image)
+cv2.waitKey(0)
+cv2.destroyAllWindows()
+</code></pre>
+<h2 id="projects">Projects</h2>
+<h3 id="face-tracking">Face Tracking</h3>
+<p>Tracks a face and adjust the camera such that its pointing straight towards the face.</p>
+<pre><code class="language-python">from typing import Tuple, Union
+import math
+import cv2
+import numpy as np
+import Raspbot_Lib
+
+MARGIN = 10  # pixels
+ROW_SIZE = 10  # pixels
+FONT_SIZE = 1
+FONT_THICKNESS = 1
+TEXT_COLOR = (255, 0, 0)  # red
+
+def _normalized_to_pixel_coordinates(
+    normalized_x: float, normalized_y: float, image_width: int,
+    image_height: int) -&gt; Union[None, Tuple[int, int]]:
+  &quot;&quot;&quot;Converts normalized value pair to pixel coordinates.&quot;&quot;&quot;
+
+  # Checks if the float value is between 0 and 1.
+  def is_valid_normalized_value(value: float) -&gt; bool:
+    return (value &gt; 0 or math.isclose(0, value)) and (value &lt; 1 or
+                                                      math.isclose(1, value))
+
+  if not (is_valid_normalized_value(normalized_x) and
+          is_valid_normalized_value(normalized_y)):
+    # TODO: Draw coordinates even if it's outside of the image bounds.
+    return None
+  x_px = min(math.floor(normalized_x * image_width), image_width - 1)
+  y_px = min(math.floor(normalized_y * image_height), image_height - 1)
+  return x_px, y_px
+
+
+def visualize(
+    image,
+    detection_result
+) -&gt; np.ndarray:
+  &quot;&quot;&quot;Draws bounding boxes and keypoints on the input image and return it.
+  Args:
+    image: The input RGB image.
+    detection_result: The list of all &quot;Detection&quot; entities to be visualize.
+  Returns:
+    Image with bounding boxes.
+  &quot;&quot;&quot;
+  annotated_image = image.copy()
+  height, width, _ = image.shape
+
+  for detection in detection_result.detections:
+    # Draw bounding_box
+    bbox = detection.bounding_box
+    start_point = bbox.origin_x, bbox.origin_y
+    end_point = bbox.origin_x + bbox.width, bbox.origin_y + bbox.height
+    cv2.rectangle(annotated_image, start_point, end_point, TEXT_COLOR, 3)
+
+    # Draw keypoints
+    for keypoint in detection.keypoints:
+      keypoint_px = _normalized_to_pixel_coordinates(keypoint.x, keypoint.y,
+                                                     width, height)
+      color, thickness, radius = (0, 255, 0), 2, 2
+      cv2.circle(annotated_image, keypoint_px, thickness, color, radius)
+
+    # Draw label and score
+    category = detection.categories[0]
+    category_name = category.category_name
+    category_name = '' if category_name is None else category_name
+    probability = round(category.score, 2)
+    result_text = category_name + ' (' + str(probability) + ')'
+    text_location = (MARGIN + bbox.origin_x,
+                     MARGIN + ROW_SIZE + bbox.origin_y)
+    cv2.putText(annotated_image, result_text, text_location, cv2.FONT_HERSHEY_PLAIN,
+                FONT_SIZE, TEXT_COLOR, FONT_THICKNESS)
+
+  return annotated_image
+
+import numpy as np
+import mediapipe as mp
+from mediapipe.tasks import python
+from mediapipe.tasks.python import vision
+
+# STEP 2: Create an ObjectDetector object.
+base_options = python.BaseOptions(model_asset_path='./models/detector.tflite')
+options = vision.FaceDetectorOptions(base_options=base_options)
+detector = vision.FaceDetector.create_from_options(options)
+bot = Raspbot_Lib.Raspbot()
+
+def adjust_servo(bot:Raspbot_Lib.Raspbot, current_coord:tuple, to_coord:tuple, current_angle:tuple, restriction:tuple) -&gt; tuple:
+    # servo 1 is y, servo 2 is pitch
+    # servo 1 range from (0, 180)
+    # servo 2 range from (0, 120)
+    pixel_diff = (to_coord[0] - current_coord[0], to_coord[1] - current_coord[1])
+    print(pixel_diff)
+    speed = 0.20
+    angle_diff = ((pixel_diff[0]/restriction[0])*180*speed, (pixel_diff[1]/restriction[1])*120*speed)
+    print(angle_diff)
+    clamp = lambda x, lower, upper: max(min(upper, x), lower)
+    control_angle = (clamp(int(current_angle[0] - angle_diff[0]), 0, 180), clamp(int(current_angle[1] - angle_diff[1]), 0, 120))
+    bot.Ctrl_Servo(1, control_angle[0])
+    bot.Ctrl_Servo(2, control_angle[1])
+    return control_angle 
+
+# STEP 3: Load the input image
+cap = cv2.VideoCapture(0)
+
+try:
+    if cap.isOpened():
+        current_coord = (cap.get(cv2.CAP_PROP_FRAME_WIDTH)/2, cap.get(cv2.CAP_PROP_FRAME_HEIGHT)/2)
+        print(current_coord)
+        current_angle = (90, 40)
+        adjust_servo(bot, (0, 0), (0, 0), current_angle, (1, 1))
+        while True:
+            ret, img = cap.read()
+            if not ret:
+                print(&quot;Can't receive frame. Exitting...&quot;)
+                break
+
+            mp_image = mp.Image(image_format=mp.ImageFormat.SRGB, data=img)
+            detection_result = detector.detect(mp_image)
+            if len(detection_result.detections) &gt; 0:
+                bbox = detection_result.detections[0].bounding_box
+                to_coord = (bbox.origin_x + bbox.width/2, bbox.origin_y + bbox.height/2)
+                current_angle = adjust_servo(bot, current_coord, to_coord, current_angle, (cap.get(cv2.CAP_PROP_FRAME_WIDTH), cap.get(cv2.CAP_PROP_FRAME_HEIGHT)))
+            image_copy = np.copy(mp_image.numpy_view())
+            annotated_image = visualize(image_copy, detection_result)
+            cv2.imshow(&quot;annotated image&quot;, annotated_image)
+            if cv2.waitKey(25) == ord('q'):
+                break
+finally:
+    cap.release()
+    cv2.destroyAllWindows()
+
+</code></pre>
 <p><strong>Useful Links:</strong></p>
 <ul>
 <li><a href="https://storage.googleapis.com/mediapipe-models/">links to models</a></li>

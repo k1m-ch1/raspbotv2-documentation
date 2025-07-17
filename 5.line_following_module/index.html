@@ -170,6 +170,14 @@
             
             <li class="nav-item" data-bs-level="1"><a href="#simple-line-following-robot" class="nav-link">Simple Line Following Robot</a>
               <ul class="nav flex-column">
+            <li class="nav-item" data-bs-level="2"><a href="#bang-bang-control" class="nav-link">Bang Bang Control</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#pid-controller" class="nav-link">PID controller</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
               </ul>
             </li>
         </ul>
@@ -267,9 +275,11 @@ while True:
     w_for_ir.value = bin(track_data)
 </code></pre>
 <h1 id="simple-line-following-robot">Simple Line Following Robot</h1>
-<p>From the code, we can simplify the state, <code>0</code> and <code>1</code> as such:
-- <code>0</code>: couldn't receive ir signal
-- <code>1</code>: could receive ir signal</p>
+<p>From the code, we can simplify the state, <code>0</code> and <code>1</code> as such:</p>
+<ul>
+<li><code>0</code>: couldn't receive ir signal</li>
+<li><code>1</code>: could receive ir signal</li>
+</ul>
 <p>or:</p>
 <ul>
 <li><code>0</code>: on black rails</li>
@@ -313,6 +323,18 @@ while True:
 </tr>
 </tbody>
 </table>
+<pre><code class="language-python"># first rewrite the bits into a list of bool (not for efficiency but for convenience)
+def rewrite_list(track_data:int):
+    track_data ^= 1111
+    ret_list = list()
+    ret_list.append(bool((track_data &gt;&gt; 2 ) &amp; 1))
+    ret_list.append(not bool((track_data &gt;&gt; 3) &amp; 1))
+    ret_list.append(bool((track_data &gt;&gt; 1 ) &amp; 1))
+    ret_list.append(bool((track_data) &amp; 1))
+    return ret_list    
+</code></pre>
+<h2 id="bang-bang-control">Bang Bang Control</h2>
+<p>Uses simple if-else statements to stay on the line.</p>
 <p>Input to action table</p>
 <table>
 <thead>
@@ -323,43 +345,53 @@ while True:
 </thead>
 <tbody>
 <tr>
-<td>all on black line</td>
-<td>extreme left or right</td>
-</tr>
-<tr>
-<td>only s3 is off black line</td>
-<td>extreme left</td>
-</tr>
-<tr>
-<td>only s0 is off black line</td>
-<td>extreme right</td>
-</tr>
-<tr>
-<td>only s3 is on black line</td>
-<td>rotate right</td>
-</tr>
-<tr>
-<td>only s0 is on black line</td>
-<td>rotate left</td>
-</tr>
-<tr>
-<td>s2 is off black line</td>
-<td>rotate left</td>
-</tr>
-<tr>
-<td>s1 is off black line</td>
-<td>rotate right</td>
-</tr>
-<tr>
-<td>all is off black line</td>
+<td>all off blackline</td>
 <td>stop</td>
 </tr>
 <tr>
-<td>else</td>
+<td>s0 on black line</td>
+<td>rotate left</td>
+</tr>
+<tr>
+<td>s3 on black line</td>
+<td>rotate right</td>
+</tr>
+<tr>
+<td>otherwise</td>
 <td>continue straight</td>
 </tr>
 </tbody>
 </table>
+<pre><code class="language-python">
+reg = 0x0A
+desired_blocks_of_data = 1
+speed = 100
+while True:
+    track_data = bot.read_data_array(reg, desired_blocks_of_data)[0]
+    s = rewrite_list(track_data)
+    if not (s[0] or s[1] or s[2] or s[3]):
+        bot.Ctrl_Muto(0, 0)
+        bot.Ctrl_Muto(1, 0)
+        bot.Ctrl_Muto(2, 0)
+        bot.Ctrl_Muto(3, 0)
+    elif s[0]:
+        bot.Ctrl_Muto(0, -speed)
+        bot.Ctrl_Muto(1, -speed)
+        bot.Ctrl_Muto(2,speed)
+        bot.Ctrl_Muto(3, speed)
+    elif s[3]:
+        bot.Ctrl_Muto(0, speed)
+        bot.Ctrl_Muto(1, speed)
+        bot.Ctrl_Muto(2, -speed)
+        bot.Ctrl_Muto(3, -speed)
+
+    else:
+        bot.Ctrl_Muto(0, speed)
+        bot.Ctrl_Muto(1, speed)
+        bot.Ctrl_Muto(2, speed)
+        bot.Ctrl_Muto(3, speed)
+</code></pre>
+<p>More complicated bang bang algorithm:</p>
 <pre><code class="language-python"># first rewrite the bits into a list of bool (not for efficiency but for convenience)
 
 def rewrite_list(track_data:int):
@@ -410,11 +442,150 @@ while True:
         move_robot_wrapper(*map_to_control[&quot;forward&quot;])
 
     time.sleep(0.1)
+</code></pre>
+<pre><code class="language-python">
+reg = 0x0A
+desired_blocks_of_data = 1
+while True:
+    track_data = bot.read_data_array(reg, desired_blocks_of_data)[0]
+    s = rewrite_list(track_data)
+    if not (s[0] or s[1] or s[2] or s[3]):
+        move_robot_wrapper(*map_to_control[&quot;stop&quot;])
+    elif s[0]:
+        move_robot_wrapper(*map_to_control[&quot;rotate left&quot;])
+    elif s[3]:
+        move_robot_wrapper(*map_to_control[&quot;rotate right&quot;])
+
+    else:
+        move_robot_wrapper(*map_to_control[&quot;forward&quot;])
 
 </code></pre>
 <p>Stopping:</p>
 <pre><code class="language-python">move_robot_wrapper(*map_to_control[&quot;stop&quot;])
-</code></pre></div>
+</code></pre>
+<h2 id="pid-controller">PID controller</h2>
+<p>A PID controller stands for Proportional, Integral, Derivative.</p>
+<div class="arithmatex">\[
+\text{control} = k_p \times \text{error} + k_i \times \int{(\text{error})}dt + k_d \times \frac{d}{dt}(\text{error})
+\]</div>
+<p><span class="arithmatex">\(k_p\)</span>, <span class="arithmatex">\(k_i\)</span> and <span class="arithmatex">\(k_d\)</span> can be determined experimentally.</p>
+<pre><code class="language-python"># implementing a PID controller
+def pid(k_p, k_i, k_d, e, e_prev, e_sum, t_prev):
+    t = time.time()
+    t_diff = t - t_prev
+    e_diff = e - e_prev
+    e_sum += e
+    e = k_p*e + k_i*e_sum + k_d*(e_diff/t_diff)
+    return e, e_sum, t
+</code></pre>
+<pre><code class="language-python">
+reg = 0x0A
+desired_blocks_of_data = 1
+e_sum = 0
+e_prev = 0
+t_prev = time.time()
+weight = [-4, -1, 1, 4]
+base_speed = 50
+while True:
+    track_data = bot.read_data_array(reg, desired_blocks_of_data)[0]
+    s = rewrite_list(track_data)
+    k_p = 70
+    k_i = 0.5
+    k_d = 0.002
+    e = sum([s[i]*weight[i] for i in range(len(s))])
+    e_prev, e_sum, t_prev = pid(k_p, k_i, k_d, e, e_prev, e_sum, t_prev)
+    # print(e_prev)
+    left_speed = int(max(min(255, base_speed + e_prev), -255))
+    right_speed = int(max(min(255, base_speed - e_prev), -255))
+    bot.Ctrl_Muto(0, left_speed)
+    bot.Ctrl_Muto(1, left_speed)
+    bot.Ctrl_Muto(2, right_speed)
+    bot.Ctrl_Muto(3, right_speed)
+
+</code></pre>
+<pre><code class="language-python">
+reg = 0x0A
+desired_blocks_of_data = 1
+e_sum = 0
+e_prev = 0
+t_prev = time.time()
+weight = [-4, -1, 1, 4]
+base_speed = 50
+while True:
+    track_data = bot.read_data_array(reg, desired_blocks_of_data)[0]
+    s = rewrite_list(track_data)
+    k_p = 70
+    k_i = 0.5
+    k_d = 0.002
+    e = sum([s[i]*weight[i] for i in range(len(s))])
+    e_prev, e_sum, t_prev = pid(k_p, k_i, k_d, e, e_prev, e_sum, t_prev)
+    # print(e_prev)
+    left_speed = int(max(min(255, base_speed + e_prev), -255))
+    right_speed = int(max(min(255, base_speed - e_prev), -255))
+    bot.Ctrl_Muto(0, left_speed)
+    bot.Ctrl_Muto(1, left_speed)
+    bot.Ctrl_Muto(2, right_speed)
+    bot.Ctrl_Muto(3, right_speed)
+
+</code></pre>
+<p>Less jittery, more error prone, implemented anti-windup</p>
+<pre><code class="language-python">
+reg = 0x0A
+desired_blocks_of_data = 1
+e_sum = 0
+e_prev = 0
+t_prev = time.time()
+t_windup = t_prev
+windup_delay = 10
+weight = [-3, -1, 1, 3]
+base_speed = 50
+try:
+    while True:
+        track_data = bot.read_data_array(reg, desired_blocks_of_data)[0]
+        s = rewrite_list(track_data)
+        k_p = 90
+
+        k_i = 0.05
+        k_d = 0.0022
+        if time.time() - t_windup &gt; windup_delay:
+            t_windup = time.time()
+            e_sum = 0
+        e = sum([s[i]*weight[i] for i in range(len(s))])
+        e_prev, e_sum, t_prev = pid(k_p, k_i, k_d, e, e_prev, e_sum, t_prev)
+        # print(e_prev)
+        left_speed = int(max(min(255, base_speed + e_prev), -255))
+        right_speed = int(max(min(255, base_speed - e_prev), -255))
+        bot.Ctrl_Muto(0, left_speed)
+        bot.Ctrl_Muto(1, left_speed)
+        bot.Ctrl_Muto(2, right_speed)
+        bot.Ctrl_Muto(3, right_speed)
+finally:
+        bot.Ctrl_Muto(0, 0)
+        bot.Ctrl_Muto(1, 0)
+        bot.Ctrl_Muto(2, 0)
+        bot.Ctrl_Muto(3, 0)
+</code></pre>
+<h3 id="some-settings">Some Settings</h3>
+<table>
+<thead>
+<tr>
+<th><code>weights</code></th>
+<th><code>base_speed</code></th>
+<th><code>k_p</code></th>
+<th><code>k_i</code></th>
+<th><code>k_d</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>[-3, -1, 1, 3]</code></td>
+<td><code>50</code></td>
+<td><code>175</code></td>
+<td><code>0</code></td>
+<td><code>0.002</code></td>
+</tr>
+</tbody>
+</table></div>
             </div>
         </div>
 
