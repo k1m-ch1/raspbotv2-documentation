@@ -8,7 +8,7 @@
         
         
         <link rel="shortcut icon" href="../img/favicon.ico">
-        <title>Using The Ultrasonic Sensors - Raspbot V2 Unofficial Documentation</title>
+        <title>Using ROS - Raspbot V2 Unofficial Documentation</title>
         <link href="../css/bootstrap.min.css" rel="stylesheet">
         <link href="../css/fontawesome.min.css" rel="stylesheet">
         <link href="../css/brands.min.css" rel="stylesheet">
@@ -58,7 +58,7 @@
 </li>
                                     
 <li>
-    <a href="./" class="dropdown-item active" aria-current="page">Using The Ultrasonic Sensors</a>
+    <a href="../4.read_ultrasonic/" class="dropdown-item">Using The Ultrasonic Sensors</a>
 </li>
                                     
 <li>
@@ -82,7 +82,7 @@
 </li>
                                     
 <li>
-    <a href="../10.using_ROS/" class="dropdown-item">Using ROS</a>
+    <a href="./" class="dropdown-item active" aria-current="page">Using ROS</a>
 </li>
                                 </ul>
                             </li>
@@ -95,12 +95,12 @@
                             </a>
                         </li>
                             <li class="nav-item">
-                                <a rel="prev" href="../3.motor_control/" class="nav-link">
+                                <a rel="prev" href="../9.computer_vision/" class="nav-link">
                                     <i class="fa fa-arrow-left"></i> Previous
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a rel="next" href="../5.line_following_module/" class="nav-link">
+                                <a rel="next" class="nav-link disabled">
                                     Next <i class="fa fa-arrow-right"></i>
                                 </a>
                             </li>
@@ -152,22 +152,9 @@
     <div id="toc-collapse" class="navbar-collapse collapse card bg-body-tertiary">
         <ul class="nav flex-column">
             
-            <li class="nav-item" data-bs-level="1"><a href="#about-the-ultrasonic-sensor" class="nav-link">About The Ultrasonic Sensor</a>
+            <li class="nav-item" data-bs-level="1"><a href="#setting-up-ros-environment-on-the-raspberry-pi" class="nav-link">Setting Up ROS Environment On The Raspberry PI</a>
               <ul class="nav flex-column">
-              </ul>
-            </li>
-            
-            <li class="nav-item" data-bs-level="1"><a href="#using-the-ultrasonic-sensor" class="nav-link">Using The Ultrasonic Sensor</a>
-              <ul class="nav flex-column">
-            <li class="nav-item" data-bs-level="2"><a href="#writing-and-reading-from-registers" class="nav-link">Writing And Reading From Registers</a>
-              <ul class="nav flex-column">
-              </ul>
-            </li>
-            <li class="nav-item" data-bs-level="2"><a href="#turning-onoff-the-ultrasonic-sensor" class="nav-link">Turning On/Off The Ultrasonic Sensor</a>
-              <ul class="nav flex-column">
-              </ul>
-            </li>
-            <li class="nav-item" data-bs-level="2"><a href="#reading-the-distance-value" class="nav-link">Reading The Distance Value</a>
+            <li class="nav-item" data-bs-level="2"><a href="#common-problems-and-its-fix" class="nav-link">Common Problems and its fix</a>
               <ul class="nav flex-column">
               </ul>
             </li>
@@ -178,94 +165,151 @@
 </div></div>
                     <div class="col-md-9" role="main">
 
-<h1 id="about-the-ultrasonic-sensor">About The Ultrasonic Sensor</h1>
-<p>RaspbotV2 comes equiped with an ultrasonic sensor at the front of the car. An ultrasonic sensor is typically used to measure the distance of an object in front of the car by sending a ultrasonic wave, and measuring the time until it returns.</p>
-<div class="arithmatex">\[
-v = \frac{d}{t} \implies \boxed{d = vt}
-\]</div>
-<p>The shield of the robot already does the calculation for us and stores the distance value in the register according to <a href="https://drive.google.com/drive/folders/1ul-gn01JxJIXepU9Tqy453pdnA4wNlUd">its datasheet</a>.</p>
-<p>the relevant data:</p>
-<table>
-<thead>
-<tr>
-<th>Type Of Data</th>
-<th>Register</th>
-<th>Type</th>
-<th>Information</th>
-<th>Other</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Ultrasonic Control Switch</td>
-<td>0x07</td>
-<td>Write</td>
-<td>buf[0]: turn off/on 0/1</td>
-<td>When you don't use the ultrasonic wave, remember to turn it off. Don't turnon this button when the ultrasonic wave is not plugged in, otherwise it won't work properly.</td>
-</tr>
-<tr>
-<td>Ultrasonic data (low bit)</td>
-<td>0x1A</td>
-<td>Read</td>
-<td>0x00-0xFF</td>
-<td>Default value: 0x00, Unit: mm</td>
-</tr>
-<tr>
-<td>Ultrasonic data (high bit)</td>
-<td>0x1B</td>
-<td>Read</td>
-<td>0x00-0xFF</td>
-<td></td>
-</tr>
-</tbody>
-</table>
-<h1 id="using-the-ultrasonic-sensor">Using The Ultrasonic Sensor</h1>
-<p>Since the library doesn't directly have built-in methods to read and compute the distance for us, we'll do it manually by reading and writing to the shield via I2C communication.</p>
-<h2 id="writing-and-reading-from-registers">Writing And Reading From Registers</h2>
-<p>The Raspbot_Lib library has built in functions to read and write to the shield attached to the Raspberry PI via I2C communication.</p>
-<p>To write to an address:</p>
-<pre><code class="language-python">reg = 0x07
-data = [1]
-bot.write_array(reg, data)
+<h1 id="setting-up-ros-environment-on-the-raspberry-pi">Setting Up ROS Environment On The Raspberry PI</h1>
+<p>ROS stands for Robot Operating System, which modularizes your code and provide a template for communication across different parts of the robot (different parts of your code). More about ROS can be found on their <a href="https://docs.ros.org/en/humble/index.html">official guide</a>.</p>
+<p>It's recommended to setup the ROS environment inside a Docker container. A container is similar to a Virtual Machine(VM) but is more lightweight. More about docker can be found on <a href="https://www.docker.com/">their website</a>.</p>
+<p>Yahboom's Raspbot V2 comes with some premade ROS nodes which act as an interface to code around it. Its usage is documented on their <a href="http://www.yahboom.net/study/RASPBOT-V2">official guide</a> under <strong>9. ROS2-Robot chassis control course</strong> and <strong>10.ROS2-OpenCV course</strong>.</p>
+<p>The easiest way to setup the ROS enviroment in a docker container is to flash the default <code>.img</code> which can be found on their website under <code>System_File</code> which redirects you <a href="https://drive.google.com/drive/folders/1RV4pGs8N0ATYlibx3DoaTCyOxKGn9I08">here</a>.</p>
+<p>Otherwise, it's possible to build a custom Docker image from a custom Dockerfile to setup the environment. The source files for their ROS workspace can be found in their website under <strong>Code</strong> which redirects <a href="https://drive.google.com/drive/folders/1EcM-Il9zUM48WEBmg6HtsEd-xEjcmNOH">here</a>. </p>
+<pre><code>.
+├── instruction_manual
+├── project_demo
+│   ├── 03.Basic_car_course
+│   │   └── RGB_Light_bar_test
+│   ├── 04.Car_motion_control
+│   │   └── __pycache__
+│   ├── 05.Advance_course
+│   ├── 06.Open_source_cv_course
+│   │   ├── A.introduction
+│   │   ├── B.Geometric_Transformations
+│   │   ├── C.Image_Processing_Text_Drawing
+│   │   ├── D.Image_Enhancement
+│   │   └── E.Machine_Learning
+│   ├── 07.AI_Visual_Recognition
+│   │   ├── 01.Camera_Driving
+│   │   ├── 02.Color_Recog
+│   │   ├── 04.Tensorflow_object_recognition
+│   │   ├── 05.QR_code_recognition
+│   │   ├── 06.Face_recognition
+│   │   ├── 07.License_plate_recognition
+│   │   ├── detection
+│   │   └── mediapipe
+│   ├── 08.AI_Visual_Interaction_Course
+│   │   ├── 01.Color_tracking
+│   │   ├── 02.Color_follows
+│   │   ├── 03.QRcode_recog_campaign
+│   │   ├── 04.Face_tracking
+│   │   ├── 05.Face_follow
+│   │   ├── 06.Vision_Based_Auto_LineFollowing
+│   │   ├── 07.Garbage_identification_yolov4tiny
+│   │   ├── 07.Garbage_identification_yolov5lite
+│   │   ├── 08.Autopilot_map_sandbox
+│   │   └── 09.Gesture_follows
+│   ├── lib
+│   │   └── __pycache__
+│   └── raspbot
+│       ├── data
+│       ├── object_detection
+│       ├── __pycache__
+│       ├── ssdlite_mobilenet_v2_coco_2018_05_09
+│       └── templates
+└── ros2_source_code
+    ├── library_ws
+    │   ├── bin
+    │   ├── include
+    │   ├── lib
+    │   ├── lib64 -&gt; lib
+    │   ├── py_install
+    │   ├── software
+    │   └── test
+    ├── yahboomcar_ros2_ws
+    │   └── yahboomcar_ws
+    └── yahboomcar_ws
+        └── src
+
+54 directories
 </code></pre>
-<p>To read from an address:</p>
-<pre><code class="language-python">reg = 0x0D
-desired_block_length = 1
-output = bot.read_data_array(reg, desired_block_length)
-# output is a list of bytes
+<p>The <code>src</code> directory for the workspace is stored at <code>./ros2_source_code/yahboomcar_ws/src</code>.</p>
+<p>An example setup may look something like this:</p>
+<pre><code>.
+├── Dockerfile
+├── docker_ros2.sh
+└── src
+    ├── yahboomcar_apriltag
+    ├── yahboomcar_astra
+    ├── yahboomcar_bringup
+    ├── yahboomcar_ctrl
+    ├── yahboomcar_description
+    ├── yahboomcar_mediapipe
+    ├── yahboomcar_msgs
+    ├── yahboomcar_point
+    └── yahboomcar_visual
 </code></pre>
-<h2 id="turning-onoff-the-ultrasonic-sensor">Turning On/Off The Ultrasonic Sensor</h2>
-<p>To turn on the ultrasonic sensor:</p>
-<p>Use prebuilt function: </p>
-<pre><code class="language-python">bot.Ctrl_Ulatist_Switch(1)
+<p>In the Dockerfile:</p>
+<pre><code class="language-Dockerfile">FROM ros@sha256:5ebfd9b9282d540dadcb3affe02d90496b075a8e81c70b235a1e56e0788d610a
+
+# Install required system packages
+RUN apt-get update &amp;&amp; apt-get install -y \
+    ros-humble-cv-bridge \
+    ros-humble-usb-cam\
+    python3-smbus \
+    python3-pip \
+    libgl1-mesa-glx \
+    micro 
+
+RUN sudo apt install -y libxcb-xinerama0 libxcb-xinerama0-dev libxcb1 libx11-xcb1 libxcb-render0 libxcb-shm0
+
+RUN apt install -y libpcl-dev
+
+RUN rm -rf /var/lib/apt/lists/*
+
+# Install Python packages
+RUN pip3 install mediapipe opencv-python
+
+RUN echo &quot;source /ros_entrypoint.sh&quot; &gt;&gt; .bashrc
+
+WORKDIR /ros2_ws
+
+COPY . .
+
+CMD [&quot;/bin/bash&quot;]
 </code></pre>
-<p>Or directly write to the register:</p>
-<pre><code class="language-python">reg = 0x07
-data = [1]
-bot.write_array(reg, data)
+<p>Inside <code>docker_ros2.sh</code>:</p>
+<pre><code class="language-bash">#!/bin/bash
+xhost +
+docker run -it \
+--privileged=true \
+--env=&quot;DISPLAY&quot; \
+--env=&quot;QT_X11_NO_MITSHM=1&quot; \
+-v /tmp/.X11-unix:/tmp/.X11-unix \
+--security-opt apparmor:unconfined \
+-v /home/pi/temp:/root/temp \
+-v /dev/i2c-1:/dev/i2c-1 \
+-v /dev/i2c-0:/dev/i2c-0 \
+--device=/dev/video0 \
+--device=/dev/video1 \
+--device=/dev/gpiomem \
+ros_for_raspbot_custom:latest /bin/bash
 </code></pre>
-<p>Note: Generally, it's best to turn of the sensor when it's not in use. When writing a try-catch block, it's important to turn off the ultrasonic sensor when something goes wrong. </p>
-<h2 id="reading-the-distance-value">Reading The Distance Value</h2>
-<p>The total distance of 2 bytes is split into 2 registers, <code>0x1A</code> and <code>0x1B</code> for low and high bits respectively. Its units is in millimeters <span class="arithmatex">\((\text{mm})\)</span>.</p>
-<p>First, we retrive the 2 bytes from the register.</p>
-<pre><code class="language-python">low_bit_reg = 0x1A
-high_bit_reg = 0x1B
-desired_block_length = 1
-low_bit_distance = bot.read_data_array(low_bit_reg, desired_block_length)[0]
-high_bit_distance = bot.read_data_array(high_bit_reg, desired_block_length)[0]
+<p>Build the environment using Docker</p>
+<pre><code class="language-bash">docker build -t ros_for_raspbot_custom:latest
 </code></pre>
-<p>If for instance, <code>low_bit_distance=0xE8</code> and <code>high_bit_distance=0x03</code>, the whole distance would be <code>0x03E8</code>.</p>
-<div class="arithmatex">\[
-\texttt{0x}\underbrace{\texttt{03}}_{\text{high bit |}}\underbrace{\texttt{E8}}_\text{ low bit }
-\]</div>
-<p>To do this we can:
-1. <code>0x03 &lt;&lt; 8</code> to get <code>0x0300</code>
-2. Then simply take <code>0x0300 + 0x00E8</code> or <code>0x0300 | 0x00E8</code> to get <code>0X03E8</code></p>
-<p>Programically, to combine these two values, we:
-1. Shift <code>high_bit_distance</code> 1 byte (8 bits) to the left
-2. Either take <code>high_bit_distance + low_bit_distance</code> or <code>high_bit_distance|low_bit_distance</code> to get the real distance</p>
-<pre><code class="language-python">distance = (high_bit_distance &lt;&lt; 8)|low_bit_distance
-</code></pre></div>
+<p>Run the docker environment by running the <code>docker_ros2.sh</code> script</p>
+<pre><code class="language-bash">bash ./docker_ros2.sh
+</code></pre>
+<p>Once inside the Docker environment, build the ROS workspace using <code>colcon</code></p>
+<pre><code class="language-bash">colcon build
+</code></pre>
+<p>Source the <code>setup.bash</code>.</p>
+<pre><code class="language-bash">source ./install/setup.bash
+</code></pre>
+<p>It's then possible to follow the tutorials in the <a href="http://www.yahboom.net/study/RASPBOT-V2">official website</a>.</p>
+<h2 id="common-problems-and-its-fix">Common Problems and its fix</h2>
+<ul>
+<li><code>ros2</code> command not found can be fixed by sourcing <code>/ros_entrypoint.sh</code></li>
+<li>not being able to access Yahboom's premade modules can be fixed by sourcing <code>./install/setup.bash</code></li>
+<li>GUI not being able to launch can be fixed by first running <code>bash ./docker_ros2sh</code> while using remote desktop, such that <code>echo $DISPLAY</code> gives <code>:0</code>.</li>
+</ul></div>
             </div>
         </div>
 

@@ -1,0 +1,33 @@
+127.0.0.1 - - [01/Aug/2025 14:30:55] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [01/Aug/2025 14:30:55] "GET /icons/default_file.svg HTTP/1.1" 200 -
+127.0.0.1 - - [01/Aug/2025 14:30:57] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [01/Aug/2025 14:31:00] "GET /0.ssh_to_raspberry_pi.md HTTP/1.1" 200 -
+127.0.0.1 - - [01/Aug/2025 15:33:15] "GET /0.ssh_to_raspberry_pi.md HTTP/1.1" 200 -
+127.0.0.1 - - [01/Aug/2025 15:33:18] "GET /10.using_ROS.md HTTP/1.1" 200 -
+Serving from http://0.0.0.0:8080/
+Already up to date.
+Already up to date.
+Traceback (most recent call last):
+  File "/home/k1mch1/.local/bin/mdserve", line 8, in <module>
+    sys.exit(main())
+  File "/home/k1mch1/.local/lib/python3.10/site-packages/mdserve/__main__.py", line 26, in main
+    markdown_server.run(host=args.host, port=args.port, directory=args.directory, indexs=args.index)
+  File "/home/k1mch1/.local/lib/python3.10/site-packages/mdserve/markdown_server.py", line 384, in run
+    httpd.serve_forever()
+  File "/usr/lib/python3.10/socketserver.py", line 237, in serve_forever
+    self._handle_request_noblock()
+  File "/usr/lib/python3.10/socketserver.py", line 316, in _handle_request_noblock
+    self.process_request(request, client_address)
+  File "/usr/lib/python3.10/socketserver.py", line 347, in process_request
+    self.finish_request(request, client_address)
+  File "/usr/lib/python3.10/socketserver.py", line 360, in finish_request
+    self.RequestHandlerClass(request, client_address, self)
+  File "/usr/lib/python3.10/socketserver.py", line 747, in __init__
+    self.handle()
+  File "/usr/lib/python3.10/http/server.py", line 433, in handle
+    self.handle_one_request()
+  File "/usr/lib/python3.10/http/server.py", line 401, in handle_one_request
+    self.raw_requestline = self.rfile.readline(65537)
+  File "/usr/lib/python3.10/socket.py", line 705, in readinto
+    return self._sock.recv_into(b)
+KeyboardInterrupt

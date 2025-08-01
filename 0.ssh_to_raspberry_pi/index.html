@@ -80,6 +80,10 @@
 <li>
     <a href="../9.computer_vision/" class="dropdown-item">Computer Vision</a>
 </li>
+                                    
+<li>
+    <a href="../10.using_ROS/" class="dropdown-item">Using ROS</a>
+</li>
                                 </ul>
                             </li>
                         </ul>
@@ -165,6 +169,19 @@
             </li>
               </ul>
             </li>
+            
+            <li class="nav-item" data-bs-level="1"><a href="#setting-up-a-remote-desktop-connection-using-nomachine" class="nav-link">Setting up a remote desktop connection using NoMachine</a>
+              <ul class="nav flex-column">
+            <li class="nav-item" data-bs-level="2"><a href="#installing-nomachine-on-the-raspberry-pi" class="nav-link">Installing NoMachine on the raspberry pi</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#installing-nomachine-on-your-personal-computer" class="nav-link">Installing NoMachine on your personal computer</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+              </ul>
+            </li>
         </ul>
     </div>
 </div></div>
@@ -185,20 +202,36 @@
 </code></pre>
 <p>input your password and you'll be connected.</p>
 <h1 id="programming-environment-optional">Programming Environment (optional)</h1>
-<p>We'll use <em>jupyter</em> on the Raspberry PI. We host the server on its ip and access it on your personal pc.</p>
+<p>We'll use <em>jupyter</em> on the Raspberry PI. We host the server on its private ip and access it on your personal pc.</p>
 <h2 id="installing-jupyter">Installing Jupyter</h2>
 <pre><code class="language-bash">pip install jupyter
 </code></pre>
 <h2 id="hosting-the-server-on-your-ip">Hosting The Server On Your IP</h2>
 <pre><code class="language-bash">python3 -m jupyter lab . --ip &lt;your_LAN_ip&gt; --port 8888
 </code></pre>
-<p>For example, if your ip is <em>10.30.0.207</em> and you want to host it on port 8888</p>
+<p>For example, if your private ip is <em>10.30.0.207</em> and you want to host it on port 8888</p>
 <pre><code class="language-bash">python3 -m jupyter lab . --ip 10.30.0.207 --port 8888
 </code></pre>
 <p>you'll be given with a link like this:</p>
 <pre><code>http://10.30.0.207:8888/tree?token=a0cd659ac70086a9beb5cd3ca4d323ab733ec17c9f031805
 </code></pre>
-<p>Paste it into your personal computer and you'll have access to the files on the rapsberry pi remotely.</p></div>
+<p>Paste it into your personal computer and you'll have access to the files on the rapsberry pi remotely.</p>
+<h1 id="setting-up-a-remote-desktop-connection-using-nomachine">Setting up a remote desktop connection using NoMachine</h1>
+<p>NoMachine is a free remote desktop service for non-commercial and personal use.</p>
+<h2 id="installing-nomachine-on-the-raspberry-pi">Installing NoMachine on the raspberry pi</h2>
+<p>Install NoMachine on the raspberry pi using <a href="https://download.nomachine.com/download/?id=1&amp;platform=linux">their official guide</a> (install the <code>.deb</code> package and use <code>dpkg</code> to install the <code>.deb</code> package)</p>
+<p>On the raspberry pi, check that the NoMachine server is running via the following command:</p>
+<pre><code class="language-bash">systemctl status nxserver
+</code></pre>
+<p>If it isn't running, start the server</p>
+<pre><code class="language-bash">systemctl enable nxserver
+</code></pre>
+<h2 id="installing-nomachine-on-your-personal-computer">Installing NoMachine on your personal computer</h2>
+<p>Install NoMachine on your personal desktop using <a href="https://download.nomachine.com/everybody/">their guide</a> (methods differ across different systems).</p>
+<p>Once installed, if on linux, navigate to <code>/usr/NX/bin</code> and execute <code>nxplayer</code> to launch the NoMachine player.</p>
+<pre><code class="language-bash">/usr/NX/bin/nxserver
+</code></pre>
+<p>Click on your rapsberry pi and login.</p></div>
             </div>
         </div>
 
