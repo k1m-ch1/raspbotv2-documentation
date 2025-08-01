@@ -1,8 +1,8 @@
 # TODO LIST
 - [] using built in ros2 modules
 - [] testing example code (follow tutorial)
-- [] write about ros2
-- [] build a custom docker image and manage the workflow
+- [x] write about ros2
+- [x] build a custom docker image and manage the workflow
 - [x] finding source code
 - [x] using keyboard input to control (using teleop_keys or whatever)
 - [x] setting up VNC
