@@ -309,6 +309,7 @@ ros_for_raspbot_custom:latest /bin/bash
 <li><code>ros2</code> command not found can be fixed by sourcing <code>/ros_entrypoint.sh</code></li>
 <li>not being able to access Yahboom's premade modules can be fixed by sourcing <code>./install/setup.bash</code></li>
 <li>GUI not being able to launch can be fixed by first running <code>bash ./docker_ros2sh</code> while using remote desktop, such that <code>echo $DISPLAY</code> gives <code>:0</code>.</li>
+<li>the <code>apriltag</code> modules generally don't work due to <code>np.float</code> being deprecated in <code>numpy</code> version 1.20, can be manually fixed by changing <code>np.float</code> to just <code>float</code></li>
 </ul></div>
             </div>
         </div>
