@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="light">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        
+        
+        <link rel="shortcut icon" href="../img/favicon.ico">
+        <title>Other Built-In Libraries - Raspbot V2 Unofficial Documentation</title>
+        <link href="../css/bootstrap.min.css" rel="stylesheet">
+        <link href="../css/fontawesome.min.css" rel="stylesheet">
+        <link href="../css/brands.min.css" rel="stylesheet">
+        <link href="../css/solid.min.css" rel="stylesheet">
+        <link href="../css/v4-font-face.min.css" rel="stylesheet">
+        <link href="../css/base.css" rel="stylesheet">
+        <link id="hljs-light" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" >
+        <link id="hljs-dark" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github-dark.min.css" disabled>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+        <script>hljs.highlightAll();</script> 
+    </head>
+
+    <body>
+        <div class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary">
+            <div class="container">
+                <a class="navbar-brand" href="..">Raspbot V2 Unofficial Documentation</a>
+                <!-- Expander button -->
+                <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar-collapse" aria-controls="navbar-collapse" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <!-- Expanded navigation -->
+                <div id="navbar-collapse" class="navbar-collapse collapse">
+                        <!-- Main navigation -->
+                        <ul class="nav navbar-nav">
+                            <li class="nav-item">
+                                <a href=".." class="nav-link">Home</a>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a href="#" class="nav-link dropdown-toggle active" aria-current="page" role="button" data-bs-toggle="dropdown"  aria-expanded="false">User Guide</a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../0.ssh_to_raspberry_pi/" class="dropdown-item">Getting Started</a>
+</li>
+                                    
+<li>
+    <a href="../1.installing_libraries/" class="dropdown-item">Installation Of Libraries</a>
+</li>
+                                    
+<li>
+    <a href="../2.library_basics/" class="dropdown-item">Library Basics</a>
+</li>
+                                    
+<li>
+    <a href="../3.motor_control/" class="dropdown-item">Control Of Motors</a>
+</li>
+                                    
+<li>
+    <a href="../4.read_ultrasonic/" class="dropdown-item">Using The Ultrasonic Sensors</a>
+</li>
+                                    
+<li>
+    <a href="../5.line_following_module/" class="dropdown-item">Line Following Module</a>
+</li>
+                                    
+<li>
+    <a href="./" class="dropdown-item active" aria-current="page">Other Built-In Libraries</a>
+</li>
+                                    
+<li>
+    <a href="../7.simple_obstacle_avoidance/" class="dropdown-item">Simple Obstacle Avoidance Robot</a>
+</li>
+                                    
+<li>
+    <a href="../8.ir_remote_controlled/" class="dropdown-item">Infrared Remote Control</a>
+</li>
+                                    
+<li>
+    <a href="../9.computer_vision/" class="dropdown-item">Computer Vision</a>
+</li>
+                                    
+<li>
+    <a href="../10.using_ROS/" class="dropdown-item">Using ROS</a>
+</li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                    <ul class="nav navbar-nav ms-md-auto">
+                        <li class="nav-item">
+                            <a href="#" class="nav-link" data-bs-toggle="modal" data-bs-target="#mkdocs_search_modal">
+                                <i class="fa fa-search"></i> Search
+                            </a>
+                        </li>
+                            <li class="nav-item">
+                                <a rel="prev" href="../5.line_following_module/" class="nav-link">
+                                    <i class="fa fa-arrow-left"></i> Previous
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a rel="next" href="../7.simple_obstacle_avoidance/" class="nav-link">
+                                    Next <i class="fa fa-arrow-right"></i>
+                                </a>
+                            </li>
+                            <li class="nav-item dropdown">
+                              <button id="theme-menu" aria-expanded="false" data-bs-toggle="dropdown" data-bs-display="static" aria-label="Toggle theme" class="nav-link dropdown-toggle">
+                                <i class="fa-solid fa-circle-half-stroke fa-fw"></i>
+                                <span class="d-lg-none ms-2">Toggle theme</span>
+                              </button>
+                              <ul class="dropdown-menu dropdown-menu-end">
+                                <li>
+                                  <button class="dropdown-item d-flex align-items-center" data-bs-theme-value="light" aria-pressed="true">
+                                    <i class="fa-solid fa-sun fa-fw"></i>
+                                    <span class="ms-2">Light</span>
+                                    <i class="fa-solid fa-check ms-auto"></i>
+                                  </button>
+                                </li>
+                                <li>
+                                  <button class="dropdown-item d-flex align-items-center" data-bs-theme-value="dark" aria-pressed="false">
+                                    <i class="fa-solid fa-moon fa-fw"></i>
+                                    <span class="ms-2">Dark</span>
+                                    <i class="fa-solid fa-check ms-auto d-none"></i>
+                                  </button>
+                                </li>
+                                <li>
+                                  <button class="dropdown-item d-flex align-items-center" data-bs-theme-value="auto" aria-pressed="false">
+                                    <i class="fa-solid fa-circle-half-stroke fa-fw"></i>
+                                    <span class="ms-2">Auto</span>
+                                    <i class="fa-solid fa-check ms-auto d-none"></i>
+                                  </button>
+                                </li>
+                              </ul>
+                            </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <script src="../js/darkmode.js"></script>
+
+        <div class="container">
+            <div class="row">
+                    <div class="col-md-3"><div class="navbar-expand-md bs-sidebar hidden-print affix" role="complementary">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggler collapsed" data-bs-toggle="collapse" data-bs-target="#toc-collapse" title="Table of Contents">
+            <span class="fa fa-angle-down"></span>
+        </button>
+    </div>
+
+    
+    <div id="toc-collapse" class="navbar-collapse collapse card bg-body-tertiary">
+        <ul class="nav flex-column">
+            
+            <li class="nav-item" data-bs-level="1"><a href="#getting-started" class="nav-link">Getting Started</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            
+            <li class="nav-item" data-bs-level="1"><a href="#mclumk_wheel_sportspy" class="nav-link">McLumk_Wheel_Sports.py</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            
+            <li class="nav-item" data-bs-level="1"><a href="#yahboom_oled" class="nav-link">yahboom_oled</a>
+              <ul class="nav flex-column">
+            <li class="nav-item" data-bs-level="2"><a href="#libraries-requirement" class="nav-link">Libraries Requirement</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#methods-for-writing-things-to-the-display" class="nav-link">Methods for writing things to the display</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+              </ul>
+            </li>
+        </ul>
+    </div>
+</div></div>
+                    <div class="col-md-9" role="main">
+
+<h1 id="getting-started">Getting Started</h1>
+<p>Apart from the Raspbot_Lib library, there also exists a few more pre-written functions to interact with various peripherals of the robot.</p>
+<p>The .py files can be found on the <a href="http://www.yahboom.net/study/RASPBOT-V2">official website</a> or directly <a href="https://drive.google.com/drive/folders/1HdxfJaGoP0hoUWhiMxOM4yGBqbIs76O3?usp=sharing">here</a>. </p>
+<p>To use the functions in the file, either put it in the same directory as your python script or use <code>sys.path</code> to link it.</p>
+<pre><code class="language-python">sys.path(&quot;/path/to/the/library/&quot;)
+</code></pre>
+<h1 id="mclumk_wheel_sportspy">McLumk_Wheel_Sports.py</h1>
+<p>This library has pre-built functions to control the movement of the Mechanum wheel.</p>
+<p>For convenient's sake, import all functions into the program</p>
+<pre><code class="language-python">from McLumk_Wheel_Sports import *
+</code></pre>
+<table>
+<thead>
+<tr>
+<th>Function</th>
+<th>Arguments</th>
+<th>Details</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>move_forward(speed)</code></td>
+<td>speed ranges from 0 to 255</td>
+<td></td>
+</tr>
+<tr>
+<td><code>move_backward(speed)</code></td>
+<td>speed ranges from 0 to 255</td>
+<td></td>
+</tr>
+<tr>
+<td><code>move_left(speed)</code></td>
+<td>speed ranges from 0 to 255</td>
+<td></td>
+</tr>
+<tr>
+<td><code>move_right(speed)</code></td>
+<td>speed ranges from 0 to 255</td>
+<td></td>
+</tr>
+<tr>
+<td><code>move_diagonal_left_front(speed)</code></td>
+<td>speed ranges from 0 to 255</td>
+<td></td>
+</tr>
+<tr>
+<td><code>move_diagonal_right_front(speed)</code></td>
+<td>speed ranges from 0 to 255</td>
+<td></td>
+</tr>
+<tr>
+<td><code>move_diagonal_left_back(speed)</code></td>
+<td>speed ranges from 0 to 255</td>
+<td></td>
+</tr>
+<tr>
+<td><code>move_diagonal_right_back(speed)</code></td>
+<td>speed ranges from 0 to 255</td>
+<td></td>
+</tr>
+<tr>
+<td><code>rotate_left(speed)</code></td>
+<td>speed ranges from 0 to 255</td>
+<td></td>
+</tr>
+<tr>
+<td><code>rotate_right(speed)</code></td>
+<td>speed ranges from 0 to 255</td>
+<td></td>
+</tr>
+<tr>
+<td><code>stop_robot()</code></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>stop()</code></td>
+<td></td>
+<td>does the same thing as <code>stop_robot()</code> but does it 4 times?</td>
+</tr>
+<tr>
+<td><code>drifting(speed, deflection, deflection_rate)</code></td>
+<td>Speed: 0 to 255, deflection: 0 to 360, deflection_rate: 117+ 132... not sure</td>
+<td>when deflection_rate = 0, robot moves in the direction set by the angle. (can definitely be better implmented)</td>
+</tr>
+</tbody>
+</table>
+<pre><code>        90
+    180--丨--0
+        270
+</code></pre>
+<h1 id="yahboom_oled">yahboom_oled</h1>
+<h2 id="libraries-requirement">Libraries Requirement</h2>
+<ul>
+<li><strong>Adafruit_SSD1306</strong>: library for the OLED module</li>
+<li><strong>pillow</strong>: for image manipulation</li>
+</ul>
+<pre><code>pip install Adafruit_SSD1306 pillow
+</code></pre>
+<p>Importing the library:</p>
+<pre><code class="language-python">import sys
+sys.path.append(&quot;/path/to/the/library/&quot;)
+from yahboom_oled import *
+
+#Initializing oled object
+oled = Yahboom_OLED()
+# Begin oled object
+oled.begin()
+</code></pre>
+<p>There are two steps to display images onto the OLED display:</p>
+<ol>
+<li>Writing images to the buffer</li>
+<li>Refreshing the screen and loading that image</li>
+</ol>
+<p><strong>Note</strong>: writing the images to the buffer won't make it display on the screen. Make sure to refresh the screen afterwards using <code>oled.refresh()</code>.</p>
+<h2 id="methods-for-writing-things-to-the-display">Methods for writing things to the display</h2>
+<table>
+<thead>
+<tr>
+<th>Methods</th>
+<th>Arguments</th>
+<th>Details</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>oled.clear(refresh=False)</code></td>
+<td><code>refresh</code> (default to <code>False</code>)</td>
+<td>Simply clear the display. <code>refresh=True</code> refreshs the screen without the need of <code>oled.refresh()</code></td>
+</tr>
+<tr>
+<td><code>add_text(self, start_x, start_y, text, refresh=False)</code></td>
+<td><code>start_x</code>, <code>start_y</code> is of type <code>int</code>; <code>text</code> is of type <code>str</code></td>
+<td>display a text starting from coordinates (<code>start_x</code>, <code>start_y</code>).<em>Note: x=0, y=0; is positioned at top left corner</em></td>
+</tr>
+<tr>
+<td><code>add_cntext(self, start_x, start_y, text, refresh=False)</code></td>
+<td><span class="arithmatex">\(\vdots\)</span></td>
+<td>same as <code>add_text</code> but for chinese characters</td>
+</tr>
+<tr>
+<td><code>add_line(self, text, line=1, refresh=False)</code></td>
+<td><code>text</code> is of type <code>str</code>, <code>line</code> ranges from 1 to 4</td>
+<td>formats the text into lines automaticallly</td>
+</tr>
+<tr>
+<td><code>add_cnline(self, text, line=1, refresh=False)</code></td>
+<td><span class="arithmatex">\(\vdots\)</span></td>
+<td>same as <code>add_line</code> but for chinese characters</td>
+</tr>
+<tr>
+<td><code>main_program()</code></td>
+<td></td>
+<td>prints information about the raspberry pi including, CPU tempertature, RAM usage, IP address, Disk Usage, System time</td>
+</tr>
+</tbody>
+</table>
+<p>This library doesn't implement the display of custom images, or the ability to control each individual pixel. For more control, directly use the <code>Adafruit_SSD1306</code> library combined with <code>pillow</code></p>
+<p>Useful Links:</p>
+<ul>
+<li><code>Adafruit_SSD1306</code> <a href="https://github.com/adafruit/Adafruit_Python_SSD1306/tree/master">github repository</a></li>
+<li><a href="https://pypi.org/project/pillow/#description">Pillow library PyPI page</a></li>
+<li><a href="https://drive.google.com/drive/folders/1HdxfJaGoP0hoUWhiMxOM4yGBqbIs76O3?usp=sharing">Source code to the <code>yahboom_oled.py</code> file</a></li>
+</ul></div>
+            </div>
+        </div>
+
+        <footer class="col-md-12">
+            <hr>
+            <p>Documentation built with <a href="https://www.mkdocs.org/">MkDocs</a>.</p>
+        </footer>
+        <script src="../js/bootstrap.bundle.min.js"></script>
+        <script>
+            var base_url = "..",
+                shortcuts = {"help": 191, "next": 78, "previous": 80, "search": 83};
+        </script>
+        <script src="../js/base.js"></script>
+        <script src="../javascripts/mathjax.js"></script>
+        <script src="https://unpkg.com/mathjax@3/es5/tex-mml-chtml.js"></script>
+        <script src="../search/main.js"></script>
+
+        <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>From here you can search these documents. Enter your search terms below.</p>
+                <form>
+                    <div class="form-group">
+                        <input type="search" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results" data-no-results-text="No results found"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+
+    </body>
+</html>

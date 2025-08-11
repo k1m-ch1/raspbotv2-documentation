@@ -1,0 +1,1199 @@
+<!DOCTYPE html>
+
+<html data-bs-theme="light" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="IE=edge" http-equiv="X-UA-Compatible"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link href="../img/favicon.ico" rel="shortcut icon"/>
+<title>Computer Vision - Raspbot V2 Unofficial Documentation</title>
+<link href="../css/bootstrap.min.css" rel="stylesheet"/>
+<link href="../css/fontawesome.min.css" rel="stylesheet"/>
+<link href="../css/brands.min.css" rel="stylesheet"/>
+<link href="../css/solid.min.css" rel="stylesheet"/>
+<link href="../css/v4-font-face.min.css" rel="stylesheet"/>
+<link href="../css/base.css" rel="stylesheet"/>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" id="hljs-light" rel="stylesheet"/>
+<link disabled="" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github-dark.min.css" id="hljs-dark" rel="stylesheet"/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+<script>hljs.highlightAll();</script>
+</head>
+<body>
+<div class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary">
+<div class="container">
+<a class="navbar-brand" href="..">Raspbot V2 Unofficial Documentation</a>
+<!-- Expander button -->
+<button aria-controls="navbar-collapse" aria-expanded="false" aria-label="Toggle navigation" class="navbar-toggler" data-bs-target="#navbar-collapse" data-bs-toggle="collapse" type="button">
+<span class="navbar-toggler-icon"></span>
+</button>
+<!-- Expanded navigation -->
+<div class="navbar-collapse collapse" id="navbar-collapse">
+<!-- Main navigation -->
+<ul class="nav navbar-nav">
+<li class="nav-item">
+<a class="nav-link" href="..">Home</a>
+</li>
+<li class="nav-item dropdown">
+<a aria-current="page" aria-expanded="false" class="nav-link dropdown-toggle active" data-bs-toggle="dropdown" href="#" role="button">User Guide</a>
+<ul class="dropdown-menu">
+<li>
+<a class="dropdown-item" href="../0.ssh_to_raspberry_pi/">Getting Started</a>
+</li>
+<li>
+<a class="dropdown-item" href="../1.installing_libraries/">Installation Of Libraries</a>
+</li>
+<li>
+<a class="dropdown-item" href="../2.library_basics/">Library Basics</a>
+</li>
+<li>
+<a class="dropdown-item" href="../3.motor_control/">Control Of Motors</a>
+</li>
+<li>
+<a class="dropdown-item" href="../4.read_ultrasonic/">Using The Ultrasonic Sensors</a>
+</li>
+<li>
+<a class="dropdown-item" href="../5.line_following_module/">Line Following Module</a>
+</li>
+<li>
+<a class="dropdown-item" href="../6.other_pre_written_libraries/">Other Built-In Libraries</a>
+</li>
+<li>
+<a class="dropdown-item" href="../7.simple_obstacle_avoidance/">Simple Obstacle Avoidance Robot</a>
+</li>
+<li>
+<a class="dropdown-item" href="../8.ir_remote_controlled/">Infrared Remote Control</a>
+</li>
+<li>
+<a aria-current="page" class="dropdown-item active" href="./">Computer Vision</a>
+</li>
+<li>
+<a class="dropdown-item" href="../10.using_ROS/">Using ROS</a>
+</li>
+</ul>
+</li>
+</ul>
+<ul class="nav navbar-nav ms-md-auto">
+<li class="nav-item">
+<a class="nav-link" data-bs-target="#mkdocs_search_modal" data-bs-toggle="modal" href="#">
+<i class="fa fa-search"></i> Search
+                            </a>
+</li>
+<li class="nav-item">
+<a class="nav-link" href="../8.ir_remote_controlled/" rel="prev">
+<i class="fa fa-arrow-left"></i> Previous
+                                </a>
+</li>
+<li class="nav-item">
+<a class="nav-link" href="../10.using_ROS/" rel="next">
+                                    Next <i class="fa fa-arrow-right"></i>
+</a>
+</li>
+<li class="nav-item dropdown">
+<button aria-expanded="false" aria-label="Toggle theme" class="nav-link dropdown-toggle" data-bs-display="static" data-bs-toggle="dropdown" id="theme-menu">
+<i class="fa-solid fa-circle-half-stroke fa-fw"></i>
+<span class="d-lg-none ms-2">Toggle theme</span>
+</button>
+<ul class="dropdown-menu dropdown-menu-end">
+<li>
+<button aria-pressed="true" class="dropdown-item d-flex align-items-center" data-bs-theme-value="light">
+<i class="fa-solid fa-sun fa-fw"></i>
+<span class="ms-2">Light</span>
+<i class="fa-solid fa-check ms-auto"></i>
+</button>
+</li>
+<li>
+<button aria-pressed="false" class="dropdown-item d-flex align-items-center" data-bs-theme-value="dark">
+<i class="fa-solid fa-moon fa-fw"></i>
+<span class="ms-2">Dark</span>
+<i class="fa-solid fa-check ms-auto d-none"></i>
+</button>
+</li>
+<li>
+<button aria-pressed="false" class="dropdown-item d-flex align-items-center" data-bs-theme-value="auto">
+<i class="fa-solid fa-circle-half-stroke fa-fw"></i>
+<span class="ms-2">Auto</span>
+<i class="fa-solid fa-check ms-auto d-none"></i>
+</button>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<script src="../js/darkmode.js"></script>
+<div class="container">
+<div class="row">
+<div class="col-md-3"><div class="navbar-expand-md bs-sidebar hidden-print affix" role="complementary">
+<div class="navbar-header">
+<button class="navbar-toggler collapsed" data-bs-target="#toc-collapse" data-bs-toggle="collapse" title="Table of Contents" type="button">
+<span class="fa fa-angle-down"></span>
+</button>
+</div>
+<div class="navbar-collapse collapse card bg-body-tertiary" id="toc-collapse">
+<ul class="nav flex-column">
+<li class="nav-item" data-bs-level="1"><a class="nav-link" href="#using-the-camera">Using The Camera</a>
+<ul class="nav flex-column">
+</ul>
+</li>
+<li class="nav-item" data-bs-level="1"><a class="nav-link" href="#computer-vision">Computer Vision</a>
+<ul class="nav flex-column">
+</ul>
+</li>
+<li class="nav-item" data-bs-level="1"><a class="nav-link" href="#opencv">OpenCV</a>
+<ul class="nav flex-column">
+<li class="nav-item" data-bs-level="2"><a class="nav-link" href="#opening-images-and-writing-to-file">Opening Images And Writing To File</a>
+<ul class="nav flex-column">
+</ul>
+</li>
+<li class="nav-item" data-bs-level="2"><a class="nav-link" href="#opening-a-camera">Opening A Camera</a>
+<ul class="nav flex-column">
+</ul>
+</li>
+</ul>
+</li>
+<li class="nav-item" data-bs-level="1"><a class="nav-link" href="#writing-a-video">Writing A Video</a>
+<ul class="nav flex-column">
+<li class="nav-item" data-bs-level="2"><a class="nav-link" href="#drawing-over-frames">Drawing Over Frames</a>
+<ul class="nav flex-column">
+</ul>
+</li>
+</ul>
+</li>
+<li class="nav-item" data-bs-level="1"><a class="nav-link" href="#mediapipe">mediapipe</a>
+<ul class="nav flex-column">
+<li class="nav-item" data-bs-level="2"><a class="nav-link" href="#legacy-python-library">Legacy Python Library</a>
+<ul class="nav flex-column">
+</ul>
+</li>
+<li class="nav-item" data-bs-level="2"><a class="nav-link" href="#mediapipe-latest-solutions">MediaPipe latest solutions</a>
+<ul class="nav flex-column">
+</ul>
+</li>
+<li class="nav-item" data-bs-level="2"><a class="nav-link" href="#projects">Projects</a>
+<ul class="nav flex-column">
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div></div>
+<div class="col-md-9" role="main">
+<h1 id="using-the-camera">Using The Camera</h1>
+<p>Raspbot V2 comes with a camera, connected directly to the Raspberry PI through USB.</p>
+<p>To check whether the camera is connected, type the following into the terminal:</p>
+<pre><code class="language-bash">lsusb
+</code></pre>
+<p>To view images, we'll use <code>feh</code>:</p>
+<pre><code class="language-bash">sudo apt install feh
+</code></pre>
+<h1 id="computer-vision">Computer Vision</h1>
+<p>Computer vision is computation done on images.</p>
+<div class="mermaid">flowchart LR
+    A([Images])--&gt;|"convert to"|B([Numerical Data])
+    B --&gt;|"analysis by"|C([Computers])
+</div>
+<p>This page will look at how to use computer vision from a high level, without diving into its theory.</p>
+<p>We will use 2 popular computer vision library in python:
+- OpenCV: contains many useful utilities for computer vision</p>
+<pre><code class="language-bash">pip install opencv-python
+</code></pre>
+<ul>
+<li>mediapipe: contains algorithms for hand and posture tracking</li>
+</ul>
+<pre><code class="language-bash">pip install mediapipe
+</code></pre>
+<h1 id="opencv">OpenCV</h1>
+<p>We will use <code>OpenCV</code> to prepare images to feed into <code>mediapipe</code> which contains many machine learning algorithms for object detection, facial detection, etc.</p>
+<p>The official <code>OpenCV</code> tutorial is linked <a href="https://docs.opencv.org/4.x/d6/d00/tutorial_py_root.html">here</a>.</p>
+<h2 id="opening-images-and-writing-to-file">Opening Images And Writing To File</h2>
+<table>
+<thead>
+<tr>
+<th>Function</th>
+<th>Details</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>cv.imread</code></td>
+<td>imports an image given a path</td>
+</tr>
+<tr>
+<td><code>cv.imshow</code></td>
+<td>displays a window with an image given the window title and image object</td>
+</tr>
+<tr>
+<td><code>cv.cvtColor</code></td>
+<td>apply an operation over the whole image for a desired effect for instance, <code>cv.COLOR_BGR2GRAY</code> to grayscale an image. Other flags can be found <a href="https://docs.opencv.org/3.4/d8/d01/group__imgproc__color__conversions.html">here</a>.</td>
+</tr>
+<tr>
+<td><code>cv.waitKey</code></td>
+<td>waits for a user input for an amount in miliseconds. If <code>0</code> is entered, it will wait indefinitely. Usually used to keep a display window open until user input is received.</td>
+</tr>
+<tr>
+<td><code>cv.imwrite</code></td>
+<td>writes an image to a path</td>
+</tr>
+</tbody>
+</table>
+<pre><code class="language-python">import cv2 as cv
+
+img = cv.imread("path/to/image.png")
+# opening an image named 'image.png'
+cv.imshow("Image: ", img)
+
+# converting to grayscale
+gray = cv.cvtColor(img, cv.COLOR_BGR2GRAY)
+cv.imshow("Grayscaled Image: ", gray)
+
+if cv.waitKey(0) == ord("s"):
+    # writing the grayscaled image to 'output.png'
+    cv.imwrite("path/to/output.png", gray)
+</code></pre>
+<p><img alt="mona lisa original colors" src="https://i.imgur.com/HXujksm.jpeg"/></p>
+<p><img alt="mona lisa grayscaled" src="https://imgur.com/r5zorfm.png"/></p>
+<h2 id="opening-a-camera">Opening A Camera</h2>
+<table>
+<thead>
+<tr>
+<th>Function</th>
+<th>Details</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>cv.VideoCapture</code></td>
+<td>input an index of a camera (in case for multiple camera in use, <code>0</code> if only one camera is connected). Returns an object stored in a variable called <code>cap</code>.</td>
+</tr>
+<tr>
+<td><code>cap.isOpened</code></td>
+<td>returns a boolean which states whether the camera has been opened or not.</td>
+</tr>
+<tr>
+<td><code>cap.read</code></td>
+<td>take a shot from the camera and receive the frame as an image. Returns a tuple <code>(ret, frame)</code>. <code>ret</code> is a boolean and <code>frame</code> is an image.</td>
+</tr>
+<tr>
+<td><code>cap.release</code></td>
+<td>closes the camera</td>
+</tr>
+<tr>
+<td><code>cv.destroyAllWindows</code></td>
+<td>destroys all windows</td>
+</tr>
+</tbody>
+</table>
+<pre><code class="language-py">import numpy as np
+import cv2 as cv
+import sys
+
+# argument is the index of camera (if have multiple cameras)
+cap = cv.VideoCapture(0)
+if not cap.isOpened():
+    sys.exit("Can't open the camera for some reason")
+
+try:
+    while True:
+        # ret is True or False for whether it is read correctly, somehow can also be used to check for the end of the footage??
+        ret, frame = cap.read()
+
+        if not ret:
+            print("Can't receive frame. Exitting...")
+            break
+
+        gray = cv.cvtColor(frame, cv.COLOR_BGR2GRAY)
+
+        cv.imshow("frame", gray)
+        if cv.waitKey(1) == ord('q'):
+            break
+finally:
+    cap.release()
+    cv.destroyAllWindows()
+</code></pre>
+<h1 id="writing-a-video">Writing A Video</h1>
+<p>Initialize writer object.</p>
+<pre><code class="language-python">
+# fourcc is 4-byte code used to speify the video codec
+# codec: coder-decodertps://imgur.com/undefine
+fourcc = cv2.VideoWriter_fourcc(*"XVID")
+out = cv2.VideoWriter("output.avi", fourcc, 30.0, (frame_width, frame_height))
+</code></pre>
+<p>Writing a frame</p>
+<pre><code class="language-python">out.write(frame)
+</code></pre>
+<p>Once ready to close program:</p>
+<pre><code class="language-python">out.release()
+</code></pre>
+<h2 id="drawing-over-frames">Drawing Over Frames</h2>
+<table>
+<thead>
+<tr>
+<th>Function</th>
+<th>Details</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>img.shape</code></td>
+<td>returns <code>(height, width, color_channels)</code></td>
+</tr>
+<tr>
+<td><code>cv.line(img, (start_x, start_y), (end_x, end_y), (blue,green,red), line_width)</code></td>
+<td>draws a line over an image, distance in pixels</td>
+</tr>
+<tr>
+<td><code>cv.circle(img, (origin_x, origin_y), radius, (blue, green, red), border_width)</code></td>
+<td><code>border_width = -1</code> to fill</td>
+</tr>
+<tr>
+<td><code>cv.ellipse(frame,(origin_x, origin_y),(major_x_axis,minor_y_axis),rotation_in_ccw,start_angle,end_angle,(blue, green, red), border_width)</code></td>
+<td><code>border_width = -1</code> to fill</td>
+</tr>
+</tbody>
+</table>
+<p>Placing text over the frame:</p>
+<pre><code class="language-python">font = cv2.FONT_HERSHEY_SIMPLEX
+color = (255, 255, 255)
+font_scaling = 1
+line_size_font = 3
+x_axis_bottom_left = 480
+y_axis_bottom_left = 0
+cv2.putText(frame,'OpenCV',(x_axis_bottom_left, y_axis_bottom_left), font, font_scaling, color, line_size_font, cv2.LINE_AA)
+</code></pre>
+<h1 id="mediapipe">mediapipe</h1>
+<p><strong>MediaPipe</strong> is an open-source tool for building and deploying machine learning pipelines. In our case, we will use <strong>MediaPipe Solutions</strong> which is a list of prebuilt libraries which also contains many computer vision applications.</p>
+<p>More information about <strong>MediaPipe Solutions</strong> can be found on their <a href="https://ai.google.dev/edge/mediapipe/solutions/guide">official website</a>.</p>
+<h2 id="legacy-python-library">Legacy Python Library</h2>
+<h3 id="hands-position-recognition">Hands Position Recognition</h3>
+<pre><code class="language-python">import cv2   
+import mediapipe as mp 
+import time
+
+# create Hands() object
+hands = mp.solutions.hands.Hands()
+
+# is used to draw on the img later on
+mpdraw = mp.solutions.drawing_utils
+
+capture = cv2.VideoCapture(0) 
+
+while True:
+  success, img = capture.read() 
+
+  # convert from BGR to RGB
+  imgRGB = cv2.cvtColor(img, cv2.COLOR_BGR2RGB) 
+
+  # Takes in the RGB data and runs through some complex algorithms to return the cords of hand
+  results = hands.process(imgRGB) 
+
+  # print(results.multi_hand_landmarks)
+
+  if (rs:=results.multi_hand_landmarks) != None:
+    for handLandmarks in rs:
+      mpdraw.draw_landmarks(img, handLandmarks, mp.solutions.hands.HAND_CONNECTIONS) # Place those points at the specified cord\
+      # Connects the points of the hand
+  cv2.imshow("Image", img) 
+  # Show the image on a new window
+  cv2.waitKey(1)  # Delay
+</code></pre>
+<p><img alt="hands landmarks mapping" src="https://imgur.com/YllQMr8.png"/></p>
+<p><strong>Note:</strong> 
+- will capture an indefinite amount of hands in the frame, stored in list <code>rs=results.multi_hand_landmarks</code>
+- <code>handLandmarks.landmark</code> is a list containing 21 points that can be read and used as input to control many things such as the movement of the robot etc...
+- To extract the coordinates <code>(x, y) = handLandmarks.landmarks[i].x, handLandmarks[i].y</code></p>
+<p><img alt="Hands Landmark index" src="https://camo.githubusercontent.com/cc87e384b553a0f19dcf8a36341b37a7081edc0b21b0d0ac364200b9e3bb98a1/68747470733a2f2f6d65646961706970652e6465762f696d616765732f6d6f62696c652f68616e645f6c616e646d61726b732e706e67"/></p>
+<h3 id="face-detection">Face Detection</h3>
+<pre><code class="language-python"># code from official documentation
+
+import cv2
+import mediapipe as mp
+mp_face_detection = mp.solutions.face_detection
+mp_drawing = mp.solutions.drawing_utils
+
+# For static images:
+IMAGE_FILES = []
+with mp_face_detection.FaceDetection(
+    model_selection=1, min_detection_confidence=0.5) as face_detection:
+  for idx, file in enumerate(IMAGE_FILES):
+    image = cv2.imread(file)
+    # Convert the BGR image to RGB and process it with MediaPipe Face Detection.
+    results = face_detection.process(cv2.cvtColor(image, cv2.COLOR_BGR2RGB))
+
+    # Draw face detections of each face.
+    if not results.detections:
+      continue
+    annotated_image = image.copy()
+    for detection in results.detections:
+      print('Nose tip:')
+      print(mp_face_detection.get_key_point(
+          detection, mp_face_detection.FaceKeyPoint.NOSE_TIP))
+      mp_drawing.draw_detection(annotated_image, detection)
+    cv2.imwrite('/tmp/annotated_image' + str(idx) + '.png', annotated_image)
+
+# For webcam input:
+cap = cv2.VideoCapture(0)
+with mp_face_detection.FaceDetection(
+    model_selection=0, min_detection_confidence=0.5) as face_detection:
+  while cap.isOpened():
+    success, image = cap.read()
+    if not success:
+      print("Ignoring empty camera frame.")
+      # If loading a video, use 'break' instead of 'continue'.
+      continue
+    # To improve performance, optionally mark the image as not writeable to
+    # pass by reference.
+    image.flags.writeable = False
+    image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+    results = face_detection.process(image)
+
+    # Draw the face detection annotations on the image.
+    image.flags.writeable = True
+    image = cv2.cvtColor(image, cv2.COLOR_RGB2BGR)
+    if results.detections:
+      for detection in results.detections:
+        mp_drawing.draw_detection(image, detection)
+    # Flip the image horizontally for a selfie-view display.
+    cv2.imshow('MediaPipe Face Detection', cv2.flip(image, 1))
+    if cv2.waitKey(5) &amp; 0xFF == 27:
+        break
+cap.release()
+</code></pre>
+<p><strong>Note:</strong></p>
+<ul>
+<li>All faces detected are stored in <code>results.detections</code> as a list</li>
+<li>printing <code>detection</code> results in something like this:</li>
+</ul>
+<pre><code>[label_id: 0
+score: 0.876604617
+location_data {
+  format: RELATIVE_BOUNDING_BOX
+  relative_bounding_box {
+    xmin: 0.370108753
+    ymin: 0.0518692285
+    width: 0.318343133
+    height: 0.42444551
+  }
+  relative_keypoints {
+    x: 0.408133358
+    y: 0.197097585
+  }
+  relative_keypoints {
+    x: 0.507815838
+    y: 0.152043656
+  }
+  relative_keypoints {
+    x: 0.42386961
+    y: 0.282291234
+  }
+  relative_keypoints {
+    x: 0.464624107
+    y: 0.367188513
+  }
+  relative_keypoints {
+    x: 0.436898857
+    y: 0.237854138
+  }
+  relative_keypoints {
+    x: 0.674985
+    y: 0.147426501
+  }
+}
+]
+</code></pre>
+<ul>
+<li>to get <code>label_id</code>, <code>score</code>, <code>location_data</code>, simply say <code>detection.label_id</code> etc...</li>
+<li><code>detection.location_data.relative_keypoints</code> corresponds to right eye, left eye, nose tip, mouth center, right ear tragion, and left ear tragion; in that order.</li>
+</ul>
+<h3 id="468-landmark-face-mesh">468 landmark face mesh</h3>
+<pre><code class="language-python"># code from official documentation
+# https://github.com/google-ai-edge/mediapipe/blob/master/docs/solutions/face_mesh.md
+
+import cv2
+import mediapipe as mp
+mp_drawing = mp.solutions.drawing_utils
+mp_drawing_styles = mp.solutions.drawing_styles
+mp_face_mesh = mp.solutions.face_mesh
+
+# For static images:
+IMAGE_FILES = []
+drawing_spec = mp_drawing.DrawingSpec(thickness=1, circle_radius=1)
+with mp_face_mesh.FaceMesh(
+    static_image_mode=True,
+    max_num_faces=1,
+    refine_landmarks=True,
+    min_detection_confidence=0.5) as face_mesh:
+  for idx, file in enumerate(IMAGE_FILES):
+    image = cv2.imread(file)
+    # Convert the BGR image to RGB before processing.
+    results = face_mesh.process(cv2.cvtColor(image, cv2.COLOR_BGR2RGB))
+
+    # Print and draw face mesh landmarks on the image.
+    if not results.multi_face_landmarks:
+      continue
+    annotated_image = image.copy()
+    for face_landmarks in results.multi_face_landmarks:
+      print('face_landmarks:', face_landmarks)
+      mp_drawing.draw_landmarks(
+          image=annotated_image,
+          landmark_list=face_landmarks,
+          connections=mp_face_mesh.FACEMESH_TESSELATION,
+          landmark_drawing_spec=None,
+          connection_drawing_spec=mp_drawing_styles
+          .get_default_face_mesh_tesselation_style())
+      mp_drawing.draw_landmarks(
+          image=annotated_image,
+          landmark_list=face_landmarks,
+          connections=mp_face_mesh.FACEMESH_CONTOURS,
+          landmark_drawing_spec=None,
+          connection_drawing_spec=mp_drawing_styles
+          .get_default_face_mesh_contours_style())
+      mp_drawing.draw_landmarks(
+          image=annotated_image,
+          landmark_list=face_landmarks,
+          connections=mp_face_mesh.FACEMESH_IRISES,
+          landmark_drawing_spec=None,
+          connection_drawing_spec=mp_drawing_styles
+          .get_default_face_mesh_iris_connections_style())
+    cv2.imwrite('/tmp/annotated_image' + str(idx) + '.png', annotated_image)
+
+# For webcam input:
+drawing_spec = mp_drawing.DrawingSpec(thickness=1, circle_radius=1)
+cap = cv2.VideoCapture(0)
+with mp_face_mesh.FaceMesh(
+    max_num_faces=1,
+    refine_landmarks=True,
+    min_detection_confidence=0.5,
+    min_tracking_confidence=0.5) as face_mesh:
+  while cap.isOpened():
+    success, image = cap.read()
+    if not success:
+      print("Ignoring empty camera frame.")
+      # If loading a video, use 'break' instead of 'continue'.
+      continue
+
+    # To improve performance, optionally mark the image as not writeable to
+    # pass by reference.
+    image.flags.writeable = False
+    image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+    results = face_mesh.process(image)
+
+    # Draw the face mesh annotations on the image.
+    image.flags.writeable = True
+    image = cv2.cvtColor(image, cv2.COLOR_RGB2BGR)
+    if results.multi_face_landmarks:
+      for face_landmarks in results.multi_face_landmarks:
+        print(face_landmarks)
+        mp_drawing.draw_landmarks(
+            image=image,
+            landmark_list=face_landmarks,
+            connections=mp_face_mesh.FACEMESH_TESSELATION,
+            landmark_drawing_spec=None,
+            connection_drawing_spec=mp_drawing_styles
+            .get_default_face_mesh_tesselation_style())
+        mp_drawing.draw_landmarks(
+            image=image,
+            landmark_list=face_landmarks,
+            connections=mp_face_mesh.FACEMESH_CONTOURS,
+            landmark_drawing_spec=None,
+            connection_drawing_spec=mp_drawing_styles
+            .get_default_face_mesh_contours_style())
+        mp_drawing.draw_landmarks(
+            image=image,
+            landmark_list=face_landmarks,
+            connections=mp_face_mesh.FACEMESH_IRISES,
+            landmark_drawing_spec=None,
+            connection_drawing_spec=mp_drawing_styles
+            .get_default_face_mesh_iris_connections_style())
+    # Flip the image horizontally for a selfie-view display.
+    cv2.imshow('MediaPipe Face Mesh', cv2.flip(image, 1))
+    if cv2.waitKey(5) &amp; 0xFF == 27:
+      break
+cap.release()
+
+</code></pre>
+<h3 id="pose-detection">Pose Detection</h3>
+<pre><code class="language-python"># code snippet from official documentation
+# https://github.com/google-ai-edge/mediapipe/blob/master/docs/solutions/holistic.md
+
+import cv2
+import mediapipe as mp
+mp_drawing = mp.solutions.drawing_utils
+mp_drawing_styles = mp.solutions.drawing_styles
+mp_holistic = mp.solutions.holistic
+
+# For static images:
+IMAGE_FILES = []
+BG_COLOR = (192, 192, 192) # gray
+with mp_holistic.Holistic(
+    static_image_mode=True,
+    model_complexity=2,
+    enable_segmentation=True,
+    refine_face_landmarks=True) as holistic:
+  for idx, file in enumerate(IMAGE_FILES):
+    image = cv2.imread(file)
+    image_height, image_width, _ = image.shape
+    # Convert the BGR image to RGB before processing.
+    results = holistic.process(cv2.cvtColor(image, cv2.COLOR_BGR2RGB))
+
+    if results.pose_landmarks:
+      print(
+          f'Nose coordinates: ('
+          f'{results.pose_landmarks.landmark[mp_holistic.PoseLandmark.NOSE].x * image_width}, '
+          f'{results.pose_landmarks.landmark[mp_holistic.PoseLandmark.NOSE].y * image_height})'
+      )
+
+    annotated_image = image.copy()
+    # Draw segmentation on the image.
+    # To improve segmentation around boundaries, consider applying a joint
+    # bilateral filter to "results.segmentation_mask" with "image".
+    condition = np.stack((results.segmentation_mask,) * 3, axis=-1) &gt; 0.1
+    bg_image = np.zeros(image.shape, dtype=np.uint8)
+    bg_image[:] = BG_COLOR
+    annotated_image = np.where(condition, annotated_image, bg_image)
+    # Draw pose, left and right hands, and face landmarks on the image.
+    mp_drawing.draw_landmarks(
+        annotated_image,
+        results.face_landmarks,
+        mp_holistic.FACEMESH_TESSELATION,
+        landmark_drawing_spec=None,
+        connection_drawing_spec=mp_drawing_styles
+        .get_default_face_mesh_tesselation_style())
+    mp_drawing.draw_landmarks(
+        annotated_image,
+        results.pose_landmarks,
+        mp_holistic.POSE_CONNECTIONS,
+        landmark_drawing_spec=mp_drawing_styles.
+        get_default_pose_landmarks_style())
+    cv2.imwrite('/tmp/annotated_image' + str(idx) + '.png', annotated_image)
+    # Plot pose world landmarks.
+    mp_drawing.plot_landmarks(
+        results.pose_world_landmarks, mp_holistic.POSE_CONNECTIONS)
+
+# For webcam input:
+cap = cv2.VideoCapture(0)
+with mp_holistic.Holistic(
+    min_detection_confidence=0.5,
+    min_tracking_confidence=0.5) as holistic:
+  while cap.isOpened():
+    success, image = cap.read()
+    if not success:
+      print("Ignoring empty camera frame.")
+      # If loading a video, use 'break' instead of 'continue'.
+      continue
+
+    # To improve performance, optionally mark the image as not writeable to
+    # pass by reference.
+    image.flags.writeable = False
+    image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+    results = holistic.process(image)
+
+    # Draw landmark annotation on the image.
+    image.flags.writeable = True
+    image = cv2.cvtColor(image, cv2.COLOR_RGB2BGR)
+    mp_drawing.draw_landmarks(
+        image,
+        results.face_landmarks,
+        mp_holistic.FACEMESH_CONTOURS,
+        landmark_drawing_spec=None,
+        connection_drawing_spec=mp_drawing_styles
+        .get_default_face_mesh_contours_style())
+    mp_drawing.draw_landmarks(
+        image,
+        results.pose_landmarks,
+        mp_holistic.POSE_CONNECTIONS,
+        landmark_drawing_spec=mp_drawing_styles
+        .get_default_pose_landmarks_style())
+    # Flip the image horizontally for a selfie-view display.
+    cv2.imshow('MediaPipe Holistic', cv2.flip(image, 1))
+    if cv2.waitKey(5) &amp; 0xFF == 27:
+      break
+cap.release()
+
+</code></pre>
+<p><strong>Note:</strong> </p>
+<ul>
+<li><code>results.pose_landmarks.landmark</code> will be a list of length 33 containing points listed below: </li>
+</ul>
+<p><img src="https://mediapipe.dev/images/mobile/pose_classification_pairwise_distances.png" style="background-color:white;"/></p>
+<ul>
+<li>to access the coordinates <code>(x, y) = (results.pose_landmarks.landmark[i].x, results.pose_landmarks.landmark[i].y)</code></li>
+</ul>
+<h2 id="mediapipe-latest-solutions">MediaPipe latest solutions</h2>
+<p>Solutions built into the python libraries are now considered <code>legacy</code>.</p>
+<p>Converting an <code>OpenCV</code> image to a <code>mediapipe</code> image:</p>
+<pre><code class="language-python">rgb_frame = mp.Image(image_format=mp.ImageFormat.SRGB, data=cv_mat)
+</code></pre>
+<h3 id="hands-detection">Hands Detection</h3>
+<pre><code class="language-python">#@markdown We implemented some functions to visualize the hand landmark detection results. &lt;br/&gt; Run the following cell to activate the functions.
+
+from mediapipe import soluti_jons
+from mediapipe.framework.formats import landmark_pb2
+import numpy as np
+
+MARGIN = 10  # pixels
+FONT_SIZE = 1
+FONT_THICKNESS = 1
+HANDEDNESS_TEXT_COLOR = (88, 205, 54) # vibrant green
+
+def draw_landmarks_on_image(rgb_image, detection_result):
+  hand_landmarks_list = detection_result.hand_landmarks
+  handedness_list = detection_result.handedness
+  annotated_image = np.copy(rgb_image)
+
+  # Loop through the detected hands to visualize.
+  for idx in range(len(hand_landmarks_list)):
+    hand_landmarks = hand_landmarks_list[idx]
+    handedness = handedness_list[idx]
+
+    # Draw the hand landmarks.
+    hand_landmarks_proto = landmark_pb2.NormalizedLandmarkList()
+    hand_landmarks_proto.landmark.extend([
+      landmark_pb2.NormalizedLandmark(x=landmark.x, y=landmark.y, z=landmark.z) for landmark in hand_landmarks
+    ])
+    solutions.drawing_utils.draw_landmarks(
+      annotated_image,
+      hand_landmarks_proto,
+      solutions.hands.HAND_CONNECTIONS,
+      solutions.drawing_styles.get_default_hand_landmarks_style(),
+      solutions.drawing_styles.get_default_hand_connections_style())
+
+    # Get the top left corner of the detected hand's bounding box.
+    height, width, _ = annotated_image.shape
+    x_coordinates = [landmark.x for landmark in hand_landmarks]
+    y_coordinates = [landmark.y for landmark in hand_landmarks]
+    text_x = int(min(x_coordinates) * width)
+    text_y = int(min(y_coordinates) * height) - MARGIN
+
+    # Draw handedness (left or right hand) on the image.
+    cv2.putText(annotated_image, f"{handedness[0].category_name}",
+                (text_x, text_y), cv2.FONT_HERSHEY_DUPLEX,
+                FONT_SIZE, HANDEDNESS_TEXT_COLOR, FONT_THICKNESS, cv2.LINE_AA)
+
+  return annotated_image
+
+import cv2
+img = cv2.imread("../images/hand.png")
+# STEP 1: Import the necessary modules.
+import mediapipe as mp
+from mediapipe.tasks import python
+from mediapipe.tasks.python import vision
+
+# STEP 2: Create an HandLandmarker object.
+base_options = python.BaseOptions(model_asset_path='./models/hand_landmarker.task')
+options = vision.HandLandmarkerOptions(base_options=base_options,
+                                       num_hands=2)
+detector = vision.HandLandmarker.create_from_options(options)
+
+# STEP 3: Load the input image.
+image = mp.Image.create_from_file("../images/hand.png")
+
+# STEP 4: Detect hand landmarks from the input image.
+detection_result = detector.detect(image)
+
+# STEP 5: Process the classification result. In this case, visualize it.
+annotated_image = draw_landmarks_on_image(cv2.cvtColor(image.numpy_view(), cv2.COLOR_RGB2BGR), detection_result)
+cv2.imshow("frame", annotated_image )
+cv2.waitKey(0)
+cv2.destroyAllWindows()
+</code></pre>
+<h3 id="face-detection_1">Face Detection</h3>
+<pre><code class="language-python"># for visualization
+from typing import Tuple, Union
+import math
+import cv2
+import numpy as np
+
+MARGIN = 10  # pixels
+ROW_SIZE = 10  # pixels
+FONT_SIZE = 1
+FONT_THICKNESS = 1
+TEXT_COLOR = (255, 0, 0)  # red
+
+
+def _normalized_to_pixel_coordinates(
+    normalized_x: float, normalized_y: float, image_width: int,
+    image_height: int) -&gt; Union[None, Tuple[int, int]]:
+  """Converts normalized value pair to pixel coordinates."""
+
+  # Checks if the float value is between 0 and 1.
+  def is_valid_normalized_value(value: float) -&gt; bool:
+    return (value &gt; 0 or math.isclose(0, value)) and (value &lt; 1 or
+                                                      math.isclose(1, value))
+
+  if not (is_valid_normalized_value(normalized_x) and
+          is_valid_normalized_value(normalized_y)):
+    # TODO: Draw coordinates even if it's outside of the image bounds.
+    return None
+  x_px = min(math.floor(normalized_x * image_width), image_width - 1)
+  y_px = min(math.floor(normalized_y * image_height), image_height - 1)
+  return x_px, y_px
+
+
+def visualize(
+    image,
+    detection_result
+) -&gt; np.ndarray:
+  """Draws bounding boxes and keypoints on the input image and return it.
+  Args:
+    image: The input RGB image.
+    detection_result: The list of all "Detection" entities to be visualize.
+  Returns:
+    Image with bounding boxes.
+  """
+  annotated_image = image.copy()
+  height, width, _ = image.shape
+
+  for detection in detection_result.detections:
+    # Draw bounding_box
+    bbox = detection.bounding_box
+    start_point = bbox.origin_x, bbox.origin_y
+    end_point = bbox.origin_x + bbox.width, bbox.origin_y + bbox.height
+    cv2.rectangle(annotated_image, start_point, end_point, TEXT_COLOR, 3)
+
+    # Draw keypoints
+    for keypoint in detection.keypoints:
+      keypoint_px = _normalized_to_pixel_coordinates(keypoint.x, keypoint.y,
+                                                     width, height)
+      color, thickness, radius = (0, 255, 0), 2, 2
+      cv2.circle(annotated_image, keypoint_px, thickness, color, radius)
+
+    # Draw label and score
+    category = detection.categories[0]
+    category_name = category.category_name
+    category_name = '' if category_name is None else category_name
+    probability = round(category.score, 2)
+    result_text = category_name + ' (' + str(probability) + ')'
+    text_location = (MARGIN + bbox.origin_x,
+                     MARGIN + ROW_SIZE + bbox.origin_y)
+    cv2.putText(annotated_image, result_text, text_location, cv2.FONT_HERSHEY_PLAIN,
+                FONT_SIZE, TEXT_COLOR, FONT_THICKNESS)
+
+  return annotated_image
+
+IMAGE_FILE = '../images/faces.jpg'
+
+import cv2
+
+img = cv2.imread(IMAGE_FILE)
+cv2.imshow("loaded image", img)
+cv2.waitKey(0)
+
+# STEP 1: Import the necessary modules.
+import numpy as np
+import mediapipe as mp
+from mediapipe.tasks import python
+from mediapipe.tasks.python import vision
+
+# STEP 2: Create an FaceDetector object.
+base_options = python.BaseOptions(model_asset_path='./models/detector.tflite')
+options = vision.FaceDetectorOptions(base_options=base_options)
+detector = vision.FaceDetector.create_from_options(options)
+
+# STEP 3: Load the input image.
+image = mp.Image.create_from_file(IMAGE_FILE)
+
+# STEP 4: Detect faces in the input image.
+detection_result = detector.detect(image)
+
+# STEP 5: Process the detection result. In this case, visualize it.
+image_copy = np.copy(image.numpy_view())
+annotated_image = visualize(image_copy, detection_result)
+rgb_annotated_image = cv2.cvtColor(annotated_image, cv2.COLOR_BGR2RGB)
+cv2.imshow("faces annotated", rgb_annotated_image)
+cv2.waitKey(0)
+cv2.destroyAllWindows()
+</code></pre>
+<h3 id="object-detection">Object Detection</h3>
+<pre><code class="language-python">#@markdown We implemented some functions to visualize the object detection results. &lt;br/&gt; Run the following cell to activate the functions.
+import cv2
+import numpy as np
+
+MARGIN = 10  # pixels
+ROW_SIZE = 10  # pixels
+FONT_SIZE = 1
+FONT_THICKNESS = 1
+TEXT_COLOR = (255, 0, 0)  # red
+
+
+def visualize(
+    image,
+    detection_result
+) -&gt; np.ndarray:
+  """Draws bounding boxes on the input image and return it.
+  Args:
+    image: The input RGB image.
+    detection_result: The list of all "Detection" entities to be visualize.
+  Returns:
+    Image with bounding boxes.
+  """
+  for detection in detection_result.detections:
+    # Draw bounding_box
+    bbox = detection.bounding_box
+    start_point = bbox.origin_x, bbox.origin_y
+    end_point = bbox.origin_x + bbox.width, bbox.origin_y + bbox.height
+    cv2.rectangle(image, start_point, end_point, TEXT_COLOR, 3)
+
+    # Draw label and score
+    category = detection.categories[0]
+    category_name = category.category_name
+    probability = round(category.score, 2)
+    result_text = category_name + ' (' + str(probability) + ')'
+    text_location = (MARGIN + bbox.origin_x,
+                     MARGIN + ROW_SIZE + bbox.origin_y)
+    cv2.putText(image, result_text, text_location, cv2.FONT_HERSHEY_PLAIN,
+                FONT_SIZE, TEXT_COLOR, FONT_THICKNESS)
+
+  return image
+
+# loading the image
+
+IMAGE_FILE = '../images/cats_and_dogs.jpg'
+
+import cv2
+
+img = cv2.imread(IMAGE_FILE)
+cv2.imshow("loaded image", img)
+cv2.waitKey(0)
+
+# STEP 1: Import the necessary modules.
+import numpy as np
+import mediapipe as mp
+from mediapipe.tasks import python
+from mediapipe.tasks.python import vision
+
+# STEP 2: Create an ObjectDetector object.
+base_options = python.BaseOptions(model_asset_path='./models/efficientdet.tflite')
+options = vision.ObjectDetectorOptions(base_options=base_options,
+                                       score_threshold=0.5)
+detector = vision.ObjectDetector.create_from_options(options)
+
+# STEP 3: Load the input image.
+image = mp.Image.create_from_file(IMAGE_FILE)
+
+# STEP 4: Detect objects in the input image.
+detection_result = detector.detect(image)
+print(detection_result)
+# STEP 5: Process the detection result. In this case, visualize it.
+image_copy = np.copy(image.numpy_view())
+annotated_image = visualize(image_copy, detection_result)
+rgb_annotated_image = cv2.cvtColor(annotated_image, cv2.COLOR_BGR2RGB)
+cv2.imshow("annotated image", rgb_annotated_image)
+cv2.waitKey(0)
+cv2.destroyAllWindows()
+</code></pre>
+<h2 id="projects">Projects</h2>
+<h3 id="face-tracking">Face Tracking</h3>
+<p>Tracks a face and adjust the camera such that its pointing straight towards the face.</p>
+<pre><code class="language-python">from typing import Tuple, Union
+import math
+import cv2
+import numpy as np
+import Raspbot_Lib
+
+MARGIN = 10  # pixels
+ROW_SIZE = 10  # pixels
+FONT_SIZE = 1
+FONT_THICKNESS = 1
+TEXT_COLOR = (255, 0, 0)  # red
+
+def _normalized_to_pixel_coordinates(
+    normalized_x: float, normalized_y: float, image_width: int,
+    image_height: int) -&gt; Union[None, Tuple[int, int]]:
+  """Converts normalized value pair to pixel coordinates."""
+
+  # Checks if the float value is between 0 and 1.
+  def is_valid_normalized_value(value: float) -&gt; bool:
+    return (value &gt; 0 or math.isclose(0, value)) and (value &lt; 1 or
+                                                      math.isclose(1, value))
+
+  if not (is_valid_normalized_value(normalized_x) and
+          is_valid_normalized_value(normalized_y)):
+    # TODO: Draw coordinates even if it's outside of the image bounds.
+    return None
+  x_px = min(math.floor(normalized_x * image_width), image_width - 1)
+  y_px = min(math.floor(normalized_y * image_height), image_height - 1)
+  return x_px, y_px
+
+
+def visualize(
+    image,
+    detection_result
+) -&gt; np.ndarray:
+  """Draws bounding boxes and keypoints on the input image and return it.
+  Args:
+    image: The input RGB image.
+    detection_result: The list of all "Detection" entities to be visualize.
+  Returns:
+    Image with bounding boxes.
+  """
+  annotated_image = image.copy()
+  height, width, _ = image.shape
+
+  for detection in detection_result.detections:
+    # Draw bounding_box
+    bbox = detection.bounding_box
+    start_point = bbox.origin_x, bbox.origin_y
+    end_point = bbox.origin_x + bbox.width, bbox.origin_y + bbox.height
+    cv2.rectangle(annotated_image, start_point, end_point, TEXT_COLOR, 3)
+
+    # Draw keypoints
+    for keypoint in detection.keypoints:
+      keypoint_px = _normalized_to_pixel_coordinates(keypoint.x, keypoint.y,
+                                                     width, height)
+      color, thickness, radius = (0, 255, 0), 2, 2
+      cv2.circle(annotated_image, keypoint_px, thickness, color, radius)
+
+    # Draw label and score
+    category = detection.categories[0]
+    category_name = category.category_name
+    category_name = '' if category_name is None else category_name
+    probability = round(category.score, 2)
+    result_text = category_name + ' (' + str(probability) + ')'
+    text_location = (MARGIN + bbox.origin_x,
+                     MARGIN + ROW_SIZE + bbox.origin_y)
+    cv2.putText(annotated_image, result_text, text_location, cv2.FONT_HERSHEY_PLAIN,
+                FONT_SIZE, TEXT_COLOR, FONT_THICKNESS)
+
+  return annotated_image
+
+import numpy as np
+import mediapipe as mp
+from mediapipe.tasks import python
+from mediapipe.tasks.python import vision
+
+# STEP 2: Create an ObjectDetector object.
+base_options = python.BaseOptions(model_asset_path='./models/detector.tflite')
+options = vision.FaceDetectorOptions(base_options=base_options)
+detector = vision.FaceDetector.create_from_options(options)
+bot = Raspbot_Lib.Raspbot()
+
+def adjust_servo(bot:Raspbot_Lib.Raspbot, current_coord:tuple, to_coord:tuple, current_angle:tuple, restriction:tuple) -&gt; tuple:
+    # servo 1 is y, servo 2 is pitch
+    # servo 1 range from (0, 180)
+    # servo 2 range from (0, 120)
+    pixel_diff = (to_coord[0] - current_coord[0], to_coord[1] - current_coord[1])
+    print(pixel_diff)
+    speed = 0.20
+    angle_diff = ((pixel_diff[0]/restriction[0])*180*speed, (pixel_diff[1]/restriction[1])*120*speed)
+    print(angle_diff)
+    clamp = lambda x, lower, upper: max(min(upper, x), lower)
+    control_angle = (clamp(int(current_angle[0] - angle_diff[0]), 0, 180), clamp(int(current_angle[1] - angle_diff[1]), 0, 120))
+    bot.Ctrl_Servo(1, control_angle[0])
+    bot.Ctrl_Servo(2, control_angle[1])
+    return control_angle 
+
+# STEP 3: Load the input image
+cap = cv2.VideoCapture(0)
+
+try:
+    if cap.isOpened():
+        current_coord = (cap.get(cv2.CAP_PROP_FRAME_WIDTH)/2, cap.get(cv2.CAP_PROP_FRAME_HEIGHT)/2)
+        print(current_coord)
+        current_angle = (90, 40)
+        adjust_servo(bot, (0, 0), (0, 0), current_angle, (1, 1))
+        while True:
+            ret, img = cap.read()
+            if not ret:
+                print("Can't receive frame. Exitting...")
+                break
+
+            mp_image = mp.Image(image_format=mp.ImageFormat.SRGB, data=img)
+            detection_result = detector.detect(mp_image)
+            if len(detection_result.detections) &gt; 0:
+                bbox = detection_result.detections[0].bounding_box
+                to_coord = (bbox.origin_x + bbox.width/2, bbox.origin_y + bbox.height/2)
+                current_angle = adjust_servo(bot, current_coord, to_coord, current_angle, (cap.get(cv2.CAP_PROP_FRAME_WIDTH), cap.get(cv2.CAP_PROP_FRAME_HEIGHT)))
+            image_copy = np.copy(mp_image.numpy_view())
+            annotated_image = visualize(image_copy, detection_result)
+            cv2.imshow("annotated image", annotated_image)
+            if cv2.waitKey(25) == ord('q'):
+                break
+finally:
+    cap.release()
+    cv2.destroyAllWindows()
+
+</code></pre>
+<p><strong>Useful Links:</strong></p>
+<ul>
+<li><a href="https://storage.googleapis.com/mediapipe-models/">links to models</a></li>
+</ul></div>
+</div>
+</div>
+<footer class="col-md-12">
+<hr/>
+<p>Documentation built with <a href="https://www.mkdocs.org/">MkDocs</a>.</p>
+</footer>
+<script src="../js/bootstrap.bundle.min.js"></script>
+<script>
+            var base_url = "..",
+                shortcuts = {"help": 191, "next": 78, "previous": 80, "search": 83};
+        </script>
+<script src="../js/base.js"></script>
+<script src="../javascripts/mathjax.js"></script>
+<script src="https://unpkg.com/mathjax@3/es5/tex-mml-chtml.js"></script>
+<script src="../search/main.js"></script>
+<div aria-hidden="true" aria-labelledby="searchModalLabel" class="modal" id="mkdocs_search_modal" role="dialog" tabindex="-1">
+<div class="modal-dialog modal-lg">
+<div class="modal-content">
+<div class="modal-header">
+<h4 class="modal-title" id="searchModalLabel">Search</h4>
+<button aria-label="Close" class="btn-close" data-bs-dismiss="modal" type="button"></button>
+</div>
+<div class="modal-body">
+<p>From here you can search these documents. Enter your search terms below.</p>
+<form>
+<div class="form-group">
+<input class="form-control" id="mkdocs-search-query" placeholder="Search..." title="Type search term here" type="search"/>
+</div>
+</form>
+<div data-no-results-text="No results found" id="mkdocs-search-results"></div>
+</div>
+<div class="modal-footer">
+</div>
+</div>
+</div>
+</div><div aria-hidden="true" aria-labelledby="keyboardModalLabel" class="modal" id="mkdocs_keyboard_modal" role="dialog" tabindex="-1">
+<div class="modal-dialog">
+<div class="modal-content">
+<div class="modal-header">
+<h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+<button aria-label="Close" class="btn-close" data-bs-dismiss="modal" type="button"></button>
+</div>
+<div class="modal-body">
+<table class="table">
+<thead>
+<tr>
+<th style="width: 20%;">Keys</th>
+<th>Action</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="help shortcut"><kbd>?</kbd></td>
+<td>Open this help</td>
+</tr>
+<tr>
+<td class="next shortcut"><kbd>n</kbd></td>
+<td>Next page</td>
+</tr>
+<tr>
+<td class="prev shortcut"><kbd>p</kbd></td>
+<td>Previous page</td>
+</tr>
+<tr>
+<td class="search shortcut"><kbd>s</kbd></td>
+<td>Search</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="modal-footer">
+</div>
+</div>
+</div>
+</div>
+<script type="module">import mermaid from "https://unpkg.com/mermaid@10.4.0/dist/mermaid.esm.min.mjs";
+mermaid.initialize({});</script></body>
+</html>

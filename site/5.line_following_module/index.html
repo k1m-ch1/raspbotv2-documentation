@@ -1,0 +1,679 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="light">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        
+        
+        <link rel="shortcut icon" href="../img/favicon.ico">
+        <title>Line Following Module - Raspbot V2 Unofficial Documentation</title>
+        <link href="../css/bootstrap.min.css" rel="stylesheet">
+        <link href="../css/fontawesome.min.css" rel="stylesheet">
+        <link href="../css/brands.min.css" rel="stylesheet">
+        <link href="../css/solid.min.css" rel="stylesheet">
+        <link href="../css/v4-font-face.min.css" rel="stylesheet">
+        <link href="../css/base.css" rel="stylesheet">
+        <link id="hljs-light" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" >
+        <link id="hljs-dark" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github-dark.min.css" disabled>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+        <script>hljs.highlightAll();</script> 
+    </head>
+
+    <body>
+        <div class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary">
+            <div class="container">
+                <a class="navbar-brand" href="..">Raspbot V2 Unofficial Documentation</a>
+                <!-- Expander button -->
+                <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar-collapse" aria-controls="navbar-collapse" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <!-- Expanded navigation -->
+                <div id="navbar-collapse" class="navbar-collapse collapse">
+                        <!-- Main navigation -->
+                        <ul class="nav navbar-nav">
+                            <li class="nav-item">
+                                <a href=".." class="nav-link">Home</a>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a href="#" class="nav-link dropdown-toggle active" aria-current="page" role="button" data-bs-toggle="dropdown"  aria-expanded="false">User Guide</a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../0.ssh_to_raspberry_pi/" class="dropdown-item">Getting Started</a>
+</li>
+                                    
+<li>
+    <a href="../1.installing_libraries/" class="dropdown-item">Installation Of Libraries</a>
+</li>
+                                    
+<li>
+    <a href="../2.library_basics/" class="dropdown-item">Library Basics</a>
+</li>
+                                    
+<li>
+    <a href="../3.motor_control/" class="dropdown-item">Control Of Motors</a>
+</li>
+                                    
+<li>
+    <a href="../4.read_ultrasonic/" class="dropdown-item">Using The Ultrasonic Sensors</a>
+</li>
+                                    
+<li>
+    <a href="./" class="dropdown-item active" aria-current="page">Line Following Module</a>
+</li>
+                                    
+<li>
+    <a href="../6.other_pre_written_libraries/" class="dropdown-item">Other Built-In Libraries</a>
+</li>
+                                    
+<li>
+    <a href="../7.simple_obstacle_avoidance/" class="dropdown-item">Simple Obstacle Avoidance Robot</a>
+</li>
+                                    
+<li>
+    <a href="../8.ir_remote_controlled/" class="dropdown-item">Infrared Remote Control</a>
+</li>
+                                    
+<li>
+    <a href="../9.computer_vision/" class="dropdown-item">Computer Vision</a>
+</li>
+                                    
+<li>
+    <a href="../10.using_ROS/" class="dropdown-item">Using ROS</a>
+</li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                    <ul class="nav navbar-nav ms-md-auto">
+                        <li class="nav-item">
+                            <a href="#" class="nav-link" data-bs-toggle="modal" data-bs-target="#mkdocs_search_modal">
+                                <i class="fa fa-search"></i> Search
+                            </a>
+                        </li>
+                            <li class="nav-item">
+                                <a rel="prev" href="../4.read_ultrasonic/" class="nav-link">
+                                    <i class="fa fa-arrow-left"></i> Previous
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a rel="next" href="../6.other_pre_written_libraries/" class="nav-link">
+                                    Next <i class="fa fa-arrow-right"></i>
+                                </a>
+                            </li>
+                            <li class="nav-item dropdown">
+                              <button id="theme-menu" aria-expanded="false" data-bs-toggle="dropdown" data-bs-display="static" aria-label="Toggle theme" class="nav-link dropdown-toggle">
+                                <i class="fa-solid fa-circle-half-stroke fa-fw"></i>
+                                <span class="d-lg-none ms-2">Toggle theme</span>
+                              </button>
+                              <ul class="dropdown-menu dropdown-menu-end">
+                                <li>
+                                  <button class="dropdown-item d-flex align-items-center" data-bs-theme-value="light" aria-pressed="true">
+                                    <i class="fa-solid fa-sun fa-fw"></i>
+                                    <span class="ms-2">Light</span>
+                                    <i class="fa-solid fa-check ms-auto"></i>
+                                  </button>
+                                </li>
+                                <li>
+                                  <button class="dropdown-item d-flex align-items-center" data-bs-theme-value="dark" aria-pressed="false">
+                                    <i class="fa-solid fa-moon fa-fw"></i>
+                                    <span class="ms-2">Dark</span>
+                                    <i class="fa-solid fa-check ms-auto d-none"></i>
+                                  </button>
+                                </li>
+                                <li>
+                                  <button class="dropdown-item d-flex align-items-center" data-bs-theme-value="auto" aria-pressed="false">
+                                    <i class="fa-solid fa-circle-half-stroke fa-fw"></i>
+                                    <span class="ms-2">Auto</span>
+                                    <i class="fa-solid fa-check ms-auto d-none"></i>
+                                  </button>
+                                </li>
+                              </ul>
+                            </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <script src="../js/darkmode.js"></script>
+
+        <div class="container">
+            <div class="row">
+                    <div class="col-md-3"><div class="navbar-expand-md bs-sidebar hidden-print affix" role="complementary">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggler collapsed" data-bs-toggle="collapse" data-bs-target="#toc-collapse" title="Table of Contents">
+            <span class="fa fa-angle-down"></span>
+        </button>
+    </div>
+
+    
+    <div id="toc-collapse" class="navbar-collapse collapse card bg-body-tertiary">
+        <ul class="nav flex-column">
+            
+            <li class="nav-item" data-bs-level="1"><a href="#about-the-line-following-module" class="nav-link">About The Line Following Module</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            
+            <li class="nav-item" data-bs-level="1"><a href="#calibrating-the-sensors" class="nav-link">Calibrating The Sensors</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            
+            <li class="nav-item" data-bs-level="1"><a href="#reading-data-from-sensor" class="nav-link">Reading Data From Sensor</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            
+            <li class="nav-item" data-bs-level="1"><a href="#formatting-the-data" class="nav-link">Formatting the data</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            
+            <li class="nav-item" data-bs-level="1"><a href="#simple-line-following-robot" class="nav-link">Simple Line Following Robot</a>
+              <ul class="nav flex-column">
+            <li class="nav-item" data-bs-level="2"><a href="#bang-bang-control" class="nav-link">Bang Bang Control</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#pid-controller" class="nav-link">PID controller</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+              </ul>
+            </li>
+        </ul>
+    </div>
+</div></div>
+                    <div class="col-md-9" role="main">
+
+<h1 id="about-the-line-following-module">About The Line Following Module</h1>
+<p>The robot comes equipped with a 4 channel IR module attached to the bottom of the robot.  There are LEDs on top of the module that indicate the state of the sensors automatically without the need to write any code.</p>
+<p>From the <a href="https://drive.google.com/file/d/1t4k7jLzAHo66DYBeo1F2wkPZoZVSIJ6t/view?usp=sharing">datasheet</a></p>
+<p>Infrared sensor data: </p>
+<ul>
+<li>Address: 0x0A</li>
+<li>Type: Read</li>
+<li>Range: 0x0-0xF</li>
+<li>Additional Info: <ul>
+<li>1 bit = 1 sensor state</li>
+<li>0 means LED is lit, 1 means LED is off</li>
+<li>If we label sensors from left to right accordingly: s0, s1, s2, s3; then output byte corresponds to: s1, s0, s2, s3</li>
+</ul>
+</li>
+</ul>
+<p>Label sensors from left to right: s0, s1, s2, s3; respectively</p>
+<p>So if we get an output <code>0b0101</code>
+Then: </p>
+<table>
+<thead>
+<tr>
+<th><span class="arithmatex">\(2^3\)</span></th>
+<th><span class="arithmatex">\(2^2\)</span></th>
+<th><span class="arithmatex">\(2^1\)</span></th>
+<th><span class="arithmatex">\(2^0\)</span></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>s1</td>
+<td>s0</td>
+<td>s2</td>
+<td>s3</td>
+</tr>
+<tr>
+<td>0</td>
+<td>1</td>
+<td>0</td>
+<td>1</td>
+</tr>
+</tbody>
+</table>
+<p>Then that implies:</p>
+<ul>
+<li>s0: LED off</li>
+<li>s1: LED lit</li>
+<li>s2: LED lit</li>
+<li>s3: LED off</li>
+</ul>
+<p>To get the value of a certain bit, for instance this <span class="arithmatex">\(\text{0b1}\underline{1}\text{01}\)</span></p>
+<ol>
+<li>Shift to the right by <span class="arithmatex">\(n\)</span> where <span class="arithmatex">\(n\)</span> is the amount of places to the left of lowest bit (or <span class="arithmatex">\(2^n\)</span> in base 10). meaning <code>0b1101 &gt;&gt; 2</code> results in <code>0b11</code>.</li>
+<li>Remove all bits to the left by using the AND operation with <code>0b1</code>. <code>0b11&amp;0b01</code> outputs <code>1</code> which is exactly the binary digit we're trying to retrieve.</li>
+</ol>
+<h1 id="calibrating-the-sensors">Calibrating The Sensors</h1>
+<p>To correctly output the right value based on your surroundings, we need to calibrate the sensors. Place all the sensors over a black material and adjust accordingly:</p>
+<ol>
+<li>Turn all the knob until no LED lights up</li>
+<li>Turn all the knobs, just until LED lights up and keep it there</li>
+</ol>
+<p>Double check:</p>
+<ol>
+<li>remove from surface</li>
+<li>check that LED doesn't light up</li>
+</ol>
+<h1 id="reading-data-from-sensor">Reading Data From Sensor</h1>
+<pre><code class="language-python">reg = 0x0A
+desired_blocks_of_data = 1
+track_data = bot.read_data_array(reg, desired_blocks_of_data)
+</code></pre>
+<h1 id="formatting-the-data">Formatting the data</h1>
+<p>Pulling data out from the list and converting to <code>int</code> type</p>
+<pre><code>track_data = int(track_data[0])
+</code></pre>
+<p>If we convert it to binary, we get an output as such:</p>
+<pre><code>0b1011
+</code></pre>
+<pre><code class="language-python">reg = 0x0A
+desired_blocks_of_data = 1
+w_for_ir = widgets.Text(
+    description='State: ',
+    disabled=True   
+)
+
+display(w_for_ir)
+while True:
+    track_data = bot.read_data_array(reg, desired_blocks_of_data)[0]
+    w_for_ir.value = bin(track_data)
+</code></pre>
+<h1 id="simple-line-following-robot">Simple Line Following Robot</h1>
+<p>From the code, we can simplify the state, <code>0</code> and <code>1</code> as such:</p>
+<ul>
+<li><code>0</code>: couldn't receive ir signal</li>
+<li><code>1</code>: could receive ir signal</li>
+</ul>
+<p>or:</p>
+<ul>
+<li><code>0</code>: on black rails</li>
+<li><code>1</code>: off black rails</li>
+</ul>
+<p>We'll flip all the bits so that it's easier to work with.</p>
+<p>Recall this table:</p>
+<table>
+<thead>
+<tr>
+<th><span class="arithmatex">\(2^3\)</span></th>
+<th><span class="arithmatex">\(2^2\)</span></th>
+<th><span class="arithmatex">\(2^1\)</span></th>
+<th><span class="arithmatex">\(2^0\)</span></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>s1</td>
+<td>s0</td>
+<td>s2</td>
+<td>s3</td>
+</tr>
+</tbody>
+</table>
+<p>or </p>
+<table>
+<thead>
+<tr>
+<th>s0</th>
+<th>s1</th>
+<th>s2</th>
+<th>s3</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><span class="arithmatex">\(2^2\)</span></td>
+<td><span class="arithmatex">\(2^3\)</span></td>
+<td><span class="arithmatex">\(2^1\)</span></td>
+<td><span class="arithmatex">\(2^0\)</span></td>
+</tr>
+</tbody>
+</table>
+<pre><code class="language-python"># first rewrite the bits into a list of bool (not for efficiency but for convenience)
+def rewrite_list(track_data:int):
+    # first invert the bits (easier to work with)
+    track_data ^= 1111
+    ret_list = list()
+    ret_list.append(bool((track_data &gt;&gt; 2 ) &amp; 1))
+    ret_list.append(not bool((track_data &gt;&gt; 3) &amp; 1))
+    ret_list.append(bool((track_data &gt;&gt; 1 ) &amp; 1))
+    ret_list.append(bool((track_data) &amp; 1))
+    return ret_list    
+</code></pre>
+<p>After inverting the bits: </p>
+<ul>
+<li><code>0</code>: off black rails</li>
+<li><code>1</code>: on black rails</li>
+</ul>
+<h2 id="bang-bang-control">Bang Bang Control</h2>
+<p>Uses simple if-else statements to stay on the line.</p>
+<p>Input to action table</p>
+<table>
+<thead>
+<tr>
+<th>Input</th>
+<th>Result</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>all off blackline</td>
+<td>stop</td>
+</tr>
+<tr>
+<td>s0 on black line</td>
+<td>rotate left</td>
+</tr>
+<tr>
+<td>s3 on black line</td>
+<td>rotate right</td>
+</tr>
+<tr>
+<td>otherwise</td>
+<td>continue straight</td>
+</tr>
+</tbody>
+</table>
+<pre><code class="language-python">
+reg = 0x0A
+desired_blocks_of_data = 1
+speed = 100
+while True:
+    track_data = bot.read_data_array(reg, desired_blocks_of_data)[0]
+    s = rewrite_list(track_data)
+    if not (s[0] or s[1] or s[2] or s[3]):
+        bot.Ctrl_Muto(0, 0)
+        bot.Ctrl_Muto(1, 0)
+        bot.Ctrl_Muto(2, 0)
+        bot.Ctrl_Muto(3, 0)
+    elif s[0]:
+        bot.Ctrl_Muto(0, -speed)
+        bot.Ctrl_Muto(1, -speed)
+        bot.Ctrl_Muto(2,speed)
+        bot.Ctrl_Muto(3, speed)
+    elif s[3]:
+        bot.Ctrl_Muto(0, speed)
+        bot.Ctrl_Muto(1, speed)
+        bot.Ctrl_Muto(2, -speed)
+        bot.Ctrl_Muto(3, -speed)
+
+    else:
+        bot.Ctrl_Muto(0, speed)
+        bot.Ctrl_Muto(1, speed)
+        bot.Ctrl_Muto(2, speed)
+        bot.Ctrl_Muto(3, speed)
+</code></pre>
+<p>More complicated bang bang algorithm:</p>
+<pre><code class="language-python"># first rewrite the bits into a list of bool (not for efficiency but for convenience)
+
+def rewrite_list(track_data:int):
+    track_data ^= 1111
+    ret_list = list()
+    ret_list.append(bool((track_data &gt;&gt; 2 ) &amp; 1))
+    ret_list.append(not bool((track_data &gt;&gt; 3) &amp; 1))
+    ret_list.append(bool((track_data &gt;&gt; 1 ) &amp; 1))
+    ret_list.append(bool((track_data) &amp; 1))
+    return ret_list    
+
+POWER = 0.2
+# 90 is constant. control only power
+# power, turn ranges from -1, 0 and 1, with -1 being left, 1 begin right.
+move_robot_wrapper = lambda power, turn: move_robot(90, power*POWER, turn*POWER, bot)
+
+map_to_control = {
+    &quot;forward&quot;: (1, 0),
+    &quot;rotate left&quot;:(0, -1),
+    &quot;rotate right&quot;:(0, 1),
+    &quot;extreme left&quot;:(-1, -1),
+    &quot;extreme right&quot;:(-1, 1),
+    &quot;stop&quot;:(0,0)
+}
+move_robot_wrapper(*map_to_control[&quot;extreme right&quot;])
+time.sleep(1)
+move_robot_wrapper(*map_to_control[&quot;stop&quot;])
+
+
+reg = 0x0A
+desired_blocks_of_data = 1
+while True:
+    track_data = bot.read_data_array(reg, desired_blocks_of_data)[0]
+    s = rewrite_list(track_data)
+    if s[0] and s[1] and s[2] and s[3]:
+        move_robot_wrapper(*map_to_control[&quot;extreme right&quot;])
+    elif (not s[0]) and (not s[1]) and (not s[2]) and (not s[3]):
+        move_robot_wrapper(*map_to_control[&quot;stop&quot;])
+    elif s[0] and s[1] and s[2] and (not s[3]):
+        move_robot_wrapper(*map_to_control[&quot;extreme left&quot;])
+    elif (not s[0]) and s[1] and s[2] and s[3]:
+        move_robot_wrapper(*map_to_control[&quot;extreme right&quot;])
+    elif (s[0] and (not s[1]) and (not s[2]) and (not s[3])) or (not s[2]):
+        move_robot_wrapper(*map_to_control[&quot;rotate left&quot;])
+    elif ((not s[0]) and (not s[1]) and (not s[2]) and s[3]) or (not s[1]):
+        move_robot_wrapper(*map_to_control[&quot;rotate right&quot;])
+    else:
+        move_robot_wrapper(*map_to_control[&quot;forward&quot;])
+
+    time.sleep(0.1)
+</code></pre>
+<pre><code class="language-python">
+reg = 0x0A
+desired_blocks_of_data = 1
+while True:
+    track_data = bot.read_data_array(reg, desired_blocks_of_data)[0]
+    s = rewrite_list(track_data)
+    if not (s[0] or s[1] or s[2] or s[3]):
+        move_robot_wrapper(*map_to_control[&quot;stop&quot;])
+    elif s[0]:
+        move_robot_wrapper(*map_to_control[&quot;rotate left&quot;])
+    elif s[3]:
+        move_robot_wrapper(*map_to_control[&quot;rotate right&quot;])
+
+    else:
+        move_robot_wrapper(*map_to_control[&quot;forward&quot;])
+
+</code></pre>
+<p>Stopping:</p>
+<pre><code class="language-python">move_robot_wrapper(*map_to_control[&quot;stop&quot;])
+</code></pre>
+<h2 id="pid-controller">PID controller</h2>
+<p>A PID controller stands for Proportional, Integral, Derivative.</p>
+<div class="arithmatex">\[
+\text{control} = k_p \times \text{error} + k_i \times \int{(\text{error})}dt + k_d \times \frac{d}{dt}(\text{error})
+\]</div>
+<p><span class="arithmatex">\(k_p\)</span>, <span class="arithmatex">\(k_i\)</span> and <span class="arithmatex">\(k_d\)</span> can be determined experimentally.</p>
+<pre><code class="language-python"># implementing a PID controller
+def pid(k_p, k_i, k_d, e, e_prev, e_sum, t_prev):
+    t = time.time()
+    t_diff = t - t_prev
+    e_diff = e - e_prev
+    e_sum += e
+    e = k_p*e + k_i*e_sum + k_d*(e_diff/t_diff)
+    return e, e_sum, t
+</code></pre>
+<pre><code class="language-python">
+reg = 0x0A
+desired_blocks_of_data = 1
+e_sum = 0
+e_prev = 0
+t_prev = time.time()
+weight = [-4, -1, 1, 4]
+base_speed = 50
+while True:
+    track_data = bot.read_data_array(reg, desired_blocks_of_data)[0]
+    s = rewrite_list(track_data)
+    k_p = 70
+    k_i = 0.5
+    k_d = 0.002
+    e = sum([s[i]*weight[i] for i in range(len(s))])
+    e_prev, e_sum, t_prev = pid(k_p, k_i, k_d, e, e_prev, e_sum, t_prev)
+    # print(e_prev)
+    left_speed = int(max(min(255, base_speed + e_prev), -255))
+    right_speed = int(max(min(255, base_speed - e_prev), -255))
+    bot.Ctrl_Muto(0, left_speed)
+    bot.Ctrl_Muto(1, left_speed)
+    bot.Ctrl_Muto(2, right_speed)
+    bot.Ctrl_Muto(3, right_speed)
+
+</code></pre>
+<pre><code class="language-python">
+reg = 0x0A
+desired_blocks_of_data = 1
+e_sum = 0
+e_prev = 0
+t_prev = time.time()
+weight = [-4, -1, 1, 4]
+base_speed = 50
+while True:
+    track_data = bot.read_data_array(reg, desired_blocks_of_data)[0]
+    s = rewrite_list(track_data)
+    k_p = 70
+    k_i = 0.5
+    k_d = 0.002
+    e = sum([s[i]*weight[i] for i in range(len(s))])
+    e_prev, e_sum, t_prev = pid(k_p, k_i, k_d, e, e_prev, e_sum, t_prev)
+    # print(e_prev)
+    left_speed = int(max(min(255, base_speed + e_prev), -255))
+    right_speed = int(max(min(255, base_speed - e_prev), -255))
+    bot.Ctrl_Muto(0, left_speed)
+    bot.Ctrl_Muto(1, left_speed)
+    bot.Ctrl_Muto(2, right_speed)
+    bot.Ctrl_Muto(3, right_speed)
+
+</code></pre>
+<p>Less jittery, more error prone, implemented anti-windup</p>
+<pre><code class="language-python">
+reg = 0x0A
+desired_blocks_of_data = 1
+e_sum = 0
+e_prev = 0
+t_prev = time.time()
+t_windup = t_prev
+windup_delay = 10
+weight = [-3, -1, 1, 3]
+base_speed = 50
+try:
+    while True:
+        track_data = bot.read_data_array(reg, desired_blocks_of_data)[0]
+        s = rewrite_list(track_data)
+        k_p = 90
+
+        k_i = 0.05
+        k_d = 0.0022
+        if time.time() - t_windup &gt; windup_delay:
+            t_windup = time.time()
+            e_sum = 0
+        e = sum([s[i]*weight[i] for i in range(len(s))])
+        e_prev, e_sum, t_prev = pid(k_p, k_i, k_d, e, e_prev, e_sum, t_prev)
+        # print(e_prev)
+        left_speed = int(max(min(255, base_speed + e_prev), -255))
+        right_speed = int(max(min(255, base_speed - e_prev), -255))
+        bot.Ctrl_Muto(0, left_speed)
+        bot.Ctrl_Muto(1, left_speed)
+        bot.Ctrl_Muto(2, right_speed)
+        bot.Ctrl_Muto(3, right_speed)
+finally:
+        bot.Ctrl_Muto(0, 0)
+        bot.Ctrl_Muto(1, 0)
+        bot.Ctrl_Muto(2, 0)
+        bot.Ctrl_Muto(3, 0)
+</code></pre>
+<h3 id="some-settings">Some Settings</h3>
+<table>
+<thead>
+<tr>
+<th><code>weights</code></th>
+<th><code>base_speed</code></th>
+<th><code>k_p</code></th>
+<th><code>k_i</code></th>
+<th><code>k_d</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>[-3, -1, 1, 3]</code></td>
+<td><code>50</code></td>
+<td><code>175</code></td>
+<td><code>0</code></td>
+<td><code>0.002</code></td>
+</tr>
+</tbody>
+</table></div>
+            </div>
+        </div>
+
+        <footer class="col-md-12">
+            <hr>
+            <p>Documentation built with <a href="https://www.mkdocs.org/">MkDocs</a>.</p>
+        </footer>
+        <script src="../js/bootstrap.bundle.min.js"></script>
+        <script>
+            var base_url = "..",
+                shortcuts = {"help": 191, "next": 78, "previous": 80, "search": 83};
+        </script>
+        <script src="../js/base.js"></script>
+        <script src="../javascripts/mathjax.js"></script>
+        <script src="https://unpkg.com/mathjax@3/es5/tex-mml-chtml.js"></script>
+        <script src="../search/main.js"></script>
+
+        <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>From here you can search these documents. Enter your search terms below.</p>
+                <form>
+                    <div class="form-group">
+                        <input type="search" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results" data-no-results-text="No results found"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+
+    </body>
+</html>
